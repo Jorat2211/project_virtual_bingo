@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+body{
+  background-image: url("https://store-images.s-microsoft.com/image/apps.3686.14414624964432871.04282dc3-700f-4be9-a6e2-420e55f1840f.b06626b4-d193-4b33-ba2b-fa48759a7c3e?mode=scale&q=90&h=1080&w=1920");
+background-position: center center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size: cover;
+
+
+
+}
+ 
+
