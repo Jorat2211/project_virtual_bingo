@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registry</title>
+
+
+</head>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                
+                    <form class="box" method="post">
+                        <img id="profile-img" class="rounded-circle profile-img-card" src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" />
+                        <h3 class="title">Costa Rican Red Cross </h3>
+                        <p class="text-muted"> Please enter the information requested!</p> 
+                        
+                         <input type="email" id="email" name="email" placeholder="Enter your email" required [(ngModel)]="user.email"> 
+                         <input type="password" id="password" name="password" placeholder="Enter your password" required [(ngModel)]="user.password"> 
+                        
+                          <input type="submit" name="" value="Check in" (click)="iralaVara()">  
+                          <p class="text-muted"> Find us in:</p>                        
+                          
+                            <ul class="social-network social-circle">
+                                <li><a  class="icoFacebook" title="Costa Rican Red Cross"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a  class="icoTwitter" title="Costa Rican Red Cross"><i class="fab fa-twitter"></i></a></li>
+                            </ul>
+                          
+                    
+                    </form>
+                
+            </div>
+        </div>
+    </div>
+
+    
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    
+
+
+</html>
