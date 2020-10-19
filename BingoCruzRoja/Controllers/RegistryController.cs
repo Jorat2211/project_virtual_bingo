@@ -27,14 +27,15 @@ namespace BingoCruzRoja.Controllers
         // }
 
     [HttpPost("login")]
-    public IActionResult login(Registry request)
+    public IActionResult login(Credentials credentials)
     {
         
-    //   var user = this._context.Registry.SingleOrDefault(x => x.Email == request.Email && x.Password == request.Password);
-    //   if (user != null)
-    //   {
-    //     return Ok(true);       
-    //   }
+       var user = _context.Registry.Where(x => x.Email == credentials.Email && x.Password == credentials.Password);
+       Console.WriteLine(user);
+       if (user != null)
+       {
+         return Ok(true);       
+       }
        return Ok(false);
     }
   }

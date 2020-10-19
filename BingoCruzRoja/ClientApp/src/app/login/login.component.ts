@@ -17,9 +17,6 @@ export class LoginComponent {
         };
   }
 
-  iralaVara(){
-    window.location.href = 'https://localhost:5001/Play';
-  }
  
 NewRandom(){
 const min=1;
