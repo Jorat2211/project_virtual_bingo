@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Registry } from './login.interface';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-login',
@@ -25,12 +26,15 @@ const max=75;
 }
 
   login() {
-    this.http.post(this.baseUrl + '/api/login/login', this.user).subscribe((data) => {
-      if(data["loginStatus"]){
-        window.location.href = 'https://localhost:5001/Play';
+    this.http.post(this.baseUrl + 'api/Registry/login', this.user).subscribe((data) => {
+      if(data){
+       swal("Welcome","You have successfully logged in!","success");
+        window.location.href = 'https://localhost:5001/fetch-data';
+      }else{
+        swal("Login","Email or ppassword incorrect!","warning")
       }
       
-  }, error => console.error(alert("AQUI FALLA ALGO")));
+  }, error => console.error(alert("Email or ppassword incorrect")));
   }
 
 }

@@ -20,23 +20,17 @@ namespace BingoCruzRoja.Controllers
             _context = context;
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<Registry>>> GetReg()
-        // {
-        //     return await _context.Registry.ToListAsync();
-        // }
-
     [HttpPost("login")]
-    public IActionResult login(Credentials credentials)
-    {
-        
-       var user = _context.Registry.Where(x => x.Email == credentials.Email && x.Password == credentials.Password);
-       Console.WriteLine(user);
+    public IActionResult login(Registry credentials)
+    {        
+       var user = _context.reg.Where(x => x.Email == credentials.Email && x.Password == credentials.Password).FirstOrDefault();      
        if (user != null)
        {
-         return Ok(true);       
+         var loginStatus=true;
+         return Ok(loginStatus);               
        }
-       return Ok(false);
+         var loginStatus=false;
+         return Ok(loginStatus);   
     }
   }
 }
