@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from "./login/login.component";
 import { MainAdminComponent } from "./mainadmin/mainadmin.component"; 
 import {MainplayerComponent} from "./mainplayer/mainplayer.component"; 
+import {GameComponent} from "./game/game.component"; 
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {MainplayerComponent} from "./mainplayer/mainplayer.component";
     FetchDataComponent,
     LoginComponent,
     MainAdminComponent,
-    MainplayerComponent
+    MainplayerComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -36,6 +38,7 @@ import {MainplayerComponent} from "./mainplayer/mainplayer.component";
       { path: 'MainAdmin', component: MainAdminComponent },
       { path: 'MainAdmin', component: MainAdminComponent },
       { path: 'MainPlayer', component: MainplayerComponent },
+      { path: 'Game', component: GameComponent },
 
     ])
   ],

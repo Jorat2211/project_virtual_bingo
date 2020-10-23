@@ -29,12 +29,6 @@ namespace RedCrossBingo.Controller
         public async Task<ActionResult<BingoCardNumbers>> PostBingocardnumbers(BingoCardNumbers b)
         {
             _context.BingoCardNumbers.Add(b);
-  
-          System.Console.WriteLine("--------------------------");
-
-            System.Console.WriteLine("room card NUMBERS "+b.BingoCardsId);
-                    System.Console.WriteLine("--------------------------");
-
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetBingoCards", new { id = b.Id }, b);
         }

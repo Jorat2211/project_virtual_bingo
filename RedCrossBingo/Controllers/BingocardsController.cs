@@ -21,7 +21,7 @@ namespace RedCrossBingo.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BingoCards>>> GetCards()
         {
-            return await _context.BingoCards.ToListAsync();
+            return await _context.BingoCards.Include(c=> c.BingoCardNumbers ).ToListAsync();
         }
 
 
@@ -31,6 +31,17 @@ namespace RedCrossBingo.Controller
             _context.BingoCards.Add(b);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetBingoCards", new { id = b.Id }, b);
+        }
+
+        [HttpGet("{roomsId}")]
+        public async Task<ActionResult<IEnumerable<BingoCards>>> GetCards(long roomsId)
+        {
+            var cards = await _context.BingoCards.Where(c=> c.RoomsId == roomsId).Include(c=> c.BingoCardNumbers).ToListAsync(); 
+            if (cards == null)
+            {
+                return NotFound();
+            }
+            return cards;
         }
 
     }
