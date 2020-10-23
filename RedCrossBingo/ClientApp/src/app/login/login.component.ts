@@ -20,15 +20,6 @@ export class LoginComponent {
     };
   }
 
-
-
-
-  NewRandom() {
-    const min = 1;
-    const max = 75;
-    console.error(alert(Math.floor(Math.random() * (max - min + 1) + min)))
-  }
-
   login() {
     this.http.post(this.baseUrl + 'api/User/login', this.user).subscribe((data) => {
       if (data) {
@@ -36,7 +27,7 @@ export class LoginComponent {
         console.log(user.id);
         swal("Welcome", "You have successfully logged in!", "success");
         
-        // window.location.href = 'https://localhost:5001/MainAdmin';
+         window.location.href = 'https://localhost:5001/Game';
       } else {
         swal("Login", "Email or ppassword incorrect!", "warning")
       }

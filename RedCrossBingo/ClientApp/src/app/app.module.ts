@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from "./login/login.component";
 import { MainAdminComponent } from "./mainadmin/mainadmin.component";
+import { GameComponent } from "./game/game.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MainAdminComponent } from "./mainadmin/mainadmin.component";
     CounterComponent,
     FetchDataComponent,
     LoginComponent,
-    MainAdminComponent
+    MainAdminComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,6 +34,7 @@ import { MainAdminComponent } from "./mainadmin/mainadmin.component";
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'Login', component: LoginComponent },
       { path: 'MainAdmin', component: MainAdminComponent },
+      { path: 'Game', component: GameComponent }
     ])
   ],
   providers: [],
