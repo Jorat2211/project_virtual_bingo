@@ -25,10 +25,12 @@ export class GameComponent  {
  paintNumbers(){
    if(this.cards){
       this.cards.forEach(element => {
-        console.log(element); 
+
         this.card = element as BingoCard; 
        this.card.bingoCardNumbers.forEach(e => {
-        
+         e = e as BingoCardsNumbers;
+         console.log(e); 
+         console.log("Numero: " +e.number + " de mi carton: " +e.BingoCardsId);
        });
       });
    }
