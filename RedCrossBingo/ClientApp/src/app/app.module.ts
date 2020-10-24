@@ -25,7 +25,8 @@ import {GameComponent} from "./game/game.component";
     FetchDataComponent,
     LoginComponent,
     MainAdminComponent,
-    GameComponent
+    MainplayerComponent,
+    GameComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -19,6 +19,7 @@ namespace RedCrossBingo.Controller
         public IActionResult login(Users credentials)
         {
             var user = _context.Users.Where(x => x.Email == credentials.Email && x.Password == credentials.Password).FirstOrDefault();
+          
             if (user != null)
             {
                 return Ok(user);
