@@ -25,6 +25,7 @@ import {GameComponent} from "./game/game.component";
     FetchDataComponent,
     LoginComponent,
     MainAdminComponent,
+    MainplayerComponent,
     GameComponent
   ],
   imports: [

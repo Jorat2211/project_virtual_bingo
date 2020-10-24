@@ -11,12 +11,6 @@ import {BingoCard} from './bingocards.interface';
   styleUrls: ['./game.component.css']
 })
 
-export class GameComponent {
-
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) { 
-
-  }
-
 export class GameComponent  {
   public roomsId = 2; 
   public cards : Array<BingoCard>; 
