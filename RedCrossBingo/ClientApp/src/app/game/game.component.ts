@@ -15,7 +15,6 @@ import { BingoNumber } from './bingonumbers.interface';
 export class GameComponent  {
   public roomsId = 2; 
 
-  public cards : BingoCard[]; 
   public bingoNumber : BingoNumber;
 
   public cards : Array<BingoCard>; 
@@ -23,7 +22,7 @@ export class GameComponent  {
   public number : BingoCardsNumbers; 
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
-    this.getCards(); 
+      this.getCards(); 
    }
 
 
@@ -53,8 +52,8 @@ newBingoNumber(){
   this.bingoNumber = {
   id:0,
   number: 0,
-  is_chosen:false,
-  rooms_id: 2
+  isChosen:false,
+  roomsId: 3
 
   }
 }
@@ -67,25 +66,21 @@ save(){
     return;
   }
   //Insert
-  this.http.post<BingoNumber> (this.baseUrl + 'api/Bingonumber', {
-   RoomsId : this.bingoNumber.rooms_id,
-   number : this.bingoNumber.number,
-   IsChosen : this.bingoNumber.is_chosen
-   
-
-  }).subscribe(result => { 
-  console.log(result);
+     this.http.post<BingoNumber> (this.baseUrl + 'api/Bingonumber', {
+      number : this.bingoNumber.number,
+      IsChosen : this.bingoNumber.isChosen,
+      RoomsId : this.bingoNumber.roomsId
+    }).subscribe(result => { 
+      console.log(result); 
   }, error => console.error(error));
 }
 
 generateNumberTombola(){
-  var i= 1;
-  this.newBingoNumber();
+  this.newBingoNumber(); 
   for (var i = 1; i < 76; i++)
-  {   
-   this.bingoNumber.number=i; 
-   this.save();   
-   this.newBingoNumber();
+  {  
+     this.bingoNumber.number = i; 
+     this.save(); 
   }
 }
 
