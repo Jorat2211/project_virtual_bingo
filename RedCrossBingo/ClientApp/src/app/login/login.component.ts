@@ -26,8 +26,12 @@ export class LoginComponent {
         var user = data as User;
         console.log(user.id);
         swal("Welcome", "You have successfully logged in!", "success");
+
         
          window.location.href = 'https://localhost:5001/Game';
+
+        window.location.href = 'https://localhost:5001/MainAdmin';
+
       } else {
         swal("Login", "Email or ppassword incorrect!", "warning")
       }
