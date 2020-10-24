@@ -3,6 +3,7 @@ import { Component, Inject} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {BingoCardsNumbers} from './bingocardnumbers.interface';
 import {BingoCard} from './bingocards.interface';
+import { BingoNumber } from './bingonumbers.interface';
 
 
 @Component({
@@ -13,9 +14,14 @@ import {BingoCard} from './bingocards.interface';
 
 export class GameComponent  {
   public roomsId = 2; 
+
+  public cards : BingoCard[]; 
+  public bingoNumber : BingoNumber;
+
   public cards : Array<BingoCard>; 
   public card : BingoCard; 
   public number : BingoCardsNumbers; 
+
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.getCards(); 
    }
@@ -43,12 +49,43 @@ getCards(){
     }, error => console.error(error));
 }
 
+newBingoNumber(){
+  this.bingoNumber = {
+  id:0,
+  number: 0,
+  is_chosen:false,
+  rooms_id: 2
 
-generateNumber(){
+  }
+}
+
+save(){
+  if(this.bingoNumber.id > 0){
+    //update
+    this.http.put<BingoNumber>(this.baseUrl +'api/Bingonumber/'+this.bingoNumber.id, this.bingoNumber).subscribe(result=>{
+    }, error=>console.error(error));
+    return;
+  }
+  //Insert
+  this.http.post<BingoNumber> (this.baseUrl + 'api/Bingonumber', {
+   RoomsId : this.bingoNumber.rooms_id,
+   number : this.bingoNumber.number,
+   IsChosen : this.bingoNumber.is_chosen
+   
+
+  }).subscribe(result => { 
+  console.log(result);
+  }, error => console.error(error));
+}
+
+generateNumberTombola(){
   var i= 1;
+  this.newBingoNumber();
   for (var i = 1; i < 76; i++)
-  {
-    console.log(i);    
+  {   
+   this.bingoNumber.number=i; 
+   this.save();   
+   this.newBingoNumber();
   }
 }
 

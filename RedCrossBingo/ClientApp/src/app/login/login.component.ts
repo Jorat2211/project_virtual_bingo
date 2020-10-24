@@ -30,7 +30,7 @@ export class LoginComponent {
         
          window.location.href = 'https://localhost:5001/Game';
 
-        window.location.href = 'https://localhost:5001/MainAdmin';
+        //window.location.href = 'https://localhost:5001/MainAdmin';
 
       } else {
         swal("Login", "Email or ppassword incorrect!", "warning")
