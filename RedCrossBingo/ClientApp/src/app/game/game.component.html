@@ -11,10 +11,26 @@
     <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
         <h1 id="number">00</h1>     
     <button mat-raised-button class="btn btn-info" (click)="newRandom()">New number</button>
-<input type="button" (click)="paintNumbers()" value="My cards">
-
-</div> 
-
+    </div> 
+    <div class="divCards">
+        <input type="button" (click)="paintNumbers()" value="My cards">
+        <div *ngIf="cards" >
+            <div class="cardBingo" *ngFor= "let c of cards">
+                <div class="card" style="width: 15rem;" >
+                    <div class="card-body">
+                        <p class="card-text"> CardBingo #: {{ c.id}}</p>
+                    </div>
+                    <div *ngFor= "let n of c.bingoCardNumbers">
+                        <div class="card" style="width: 5rem;" >
+                            <div  class="card-body">
+                                <p class="card-text"> {{ n.number}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"

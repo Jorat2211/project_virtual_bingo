@@ -13,13 +13,12 @@ import { BingoNumber } from './bingonumbers.interface';
 })
 
 export class GameComponent  {
-  public roomsId = 2; 
+  public roomsId = 3; 
 
   public bingoNumber : BingoNumber;
 
   public cards : Array<BingoCard>; 
-  public card : BingoCard; 
-  public number : BingoCardsNumbers; 
+  public numbers : Array<BingoCardsNumbers>; 
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
       this.getCards(); 
@@ -27,19 +26,19 @@ export class GameComponent  {
 
 
 
+   //This method is only test, for to see numbers and cards
  paintNumbers(){
    if(this.cards){
-      this.cards.forEach(element => {
-
-        this.card = element as BingoCard; 
-       this.card.bingoCardNumbers.forEach(e => {
-         e = e as BingoCardsNumbers;
-         console.log(e); 
-         console.log("Numero: " +e.number + " de mi carton: " +e.BingoCardsId);
+     this.numbers = []; 
+      this.cards.forEach(card=> {
+        card.bingoCardNumbers.forEach(e => {
+        let num = new BingoCardsNumbers().convertToBingoCardsNumbers(e); 
+        this.numbers.push(num); 
        });
       });
    }
  }  
+
 
 getCards(){
   console.log(this.baseUrl + 'api/Bingocards/'+this.roomsId);

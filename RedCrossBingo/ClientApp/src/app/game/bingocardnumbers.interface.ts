@@ -1,7 +1,16 @@
 
-export interface BingoCardsNumbers{
+export class BingoCardsNumbers{
     id : number; 
     number: number;
-    IsSelected : boolean;
-    BingoCardsId : number;
+    isSelected : boolean;
+    bingoCardsId : number;
+
+    convertToBingoCardsNumbers (numberA: any){
+        this.id = numberA.id;
+        this.number = numberA.number;
+        this.isSelected = numberA.isSelected;
+        this.bingoCardsId = numberA.bingoCardsId;  
+        return this; 
+    }
+    
 }
