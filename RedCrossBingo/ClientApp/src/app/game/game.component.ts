@@ -16,15 +16,30 @@ export class GameComponent  {
   public roomsId = 2; 
 
   public bingoNumber : BingoNumber;
-
   public cards : Array<BingoCard>; 
   public card : BingoCard; 
   public number : BingoCardsNumbers; 
+  private numberChooseTrue: number[];
+
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+<<<<<<< HEAD
+    this.getCards(); 
+    this.newCardNumber();
+    
+=======
       this.getCards(); 
+>>>>>>> e8c09af39c984858664b48f7a184e3fecd67202c
    }
 
+  newCardNumber(){
+    this.bingoNumber={
+      id:-1,
+      number: 0,
+      is_chosen: false,
+      rooms_id:-1
+    }
+  }
 
 
  paintNumbers(){
@@ -52,8 +67,9 @@ newBingoNumber(){
   this.bingoNumber = {
   id:0,
   number: 0,
-  isChosen:false,
-  roomsId: 3
+
+  is_chosen:false,
+  rooms_id: 6 //Este id es default, debe cambiarse
 
   }
 }
@@ -76,19 +92,40 @@ save(){
 }
 
 generateNumberTombola(){
-  this.newBingoNumber(); 
+
+  
+  this.newBingoNumber();
   for (var i = 1; i < 76; i++)
   {  
-     this.bingoNumber.number = i; 
-     this.save(); 
+    this.bingoNumber.number=i; 
+    this.save();   
+  
+
   }
 }
 
+getNumber(){
+  var numberRandom = this.newRandom();
+  console.log(numberRandom);
+  if(!this.numberChooseTrue.includes(numberRandom)){
+    console.log("entro");
+    // this.numberChooseTrue.push(numberRandom);
+    // console.log(this.numberChooseTrue);
+    // this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '6/' + numberRandom).subscribe(result => {
+    //   var bingoNumber = result as BingoNumber;
+    //   this.bingoNumber.number = bingoNumber.number;
+    // }, error => console.error(error));
+  }
+  
+}
 
   newRandom() {
     const min = 1;
     const max = 75;
-    document.getElementById("number").innerHTML=Math.floor(Math.random() * (max - min + 1) + min).toString();
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
  
+
+
+
 }
