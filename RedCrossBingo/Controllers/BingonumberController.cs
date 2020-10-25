@@ -33,15 +33,22 @@ namespace RedCrossBingo.Controller
             return CreatedAtAction("GetBingoNumbers", new { id = b.Id }, b);
         }
 
-        [HttpGet("{roomsId}")]
-        public async Task<ActionResult<IEnumerable<BingoNumbers>>> GetNumber(long roomsId)
-        {
-            var cards = await _context.BingoNumbers.Where(c=> c.RoomsId == roomsId).ToListAsync(); 
-            if (cards == null)
+        
+        [HttpGet("{number}")]
+        public async Task<ActionResult<BingoNumbers>> GetNumber([FromQuery] long roomsId, long number)
+        {    
+            Console.WriteLine(roomsId+number);      
+            var cards = await _context.BingoNumbers.ToListAsync(); 
+            var cardList= cards.Where(r=> r.RoomsId== roomsId);
+            var cardNum= cardList.Where(r=>r.number==number);
+            var result=new BingoNumbers();
+            result=(BingoNumbers)cardNum;
+    
+            if (result == null)
             {
                 return NotFound();
             }
-            return cards;
+            return result;
         }
 
     }

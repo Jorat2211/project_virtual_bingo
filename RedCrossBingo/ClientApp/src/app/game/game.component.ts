@@ -14,10 +14,7 @@ import { BingoNumber } from './bingonumbers.interface';
 
 export class GameComponent  {
   public roomsId = 2; 
-
-  public cards : BingoCard[]; 
   public bingoNumber : BingoNumber;
-
   public cards : Array<BingoCard>; 
   public card : BingoCard; 
   public number : BingoCardsNumbers; 
@@ -52,8 +49,7 @@ newBingoNumber(){
   id:0,
   number: 0,
   is_chosen:false,
-  rooms_id: 2
-
+  rooms_id: 6 //Este id es default, debe cambiarse
   }
 }
 
@@ -77,16 +73,23 @@ save(){
 }
 
 generateNumberTombola(){
-  var i= 1;
+  
   this.newBingoNumber();
   for (var i = 1; i < 76; i++)
-  {   
-   this.bingoNumber.number=i; 
-   this.save();   
-   this.newBingoNumber();
+  {  
+    this.bingoNumber.number=i; 
+    this.save();   
+  
   }
 }
 
+getNumber(){
+  this.newRandom();
+  this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber').subscribe(result => {
+    
+    
+  }, error => console.error(error));
+}
 
   newRandom() {
     const min = 1;
@@ -94,4 +97,7 @@ generateNumberTombola(){
     document.getElementById("number").innerHTML=Math.floor(Math.random() * (max - min + 1) + min).toString();
   }
  
+
+
+
 }
