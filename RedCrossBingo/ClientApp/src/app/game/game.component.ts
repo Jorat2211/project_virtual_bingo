@@ -14,13 +14,14 @@ import { BingoNumber } from './bingonumbers.interface';
 
 export class GameComponent  {
   public roomsId = 2; 
+
   public bingoNumber : BingoNumber;
   public cards : Array<BingoCard>; 
   public card : BingoCard; 
   public number : BingoCardsNumbers; 
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
-    this.getCards(); 
+      this.getCards(); 
    }
 
 
@@ -28,10 +29,12 @@ export class GameComponent  {
  paintNumbers(){
    if(this.cards){
       this.cards.forEach(element => {
-        console.log(element); 
+
         this.card = element as BingoCard; 
        this.card.bingoCardNumbers.forEach(e => {
-        
+         e = e as BingoCardsNumbers;
+         console.log(e); 
+         console.log("Numero: " +e.number + " de mi carton: " +e.BingoCardsId);
        });
       });
    }
@@ -48,8 +51,10 @@ newBingoNumber(){
   this.bingoNumber = {
   id:0,
   number: 0,
+
   is_chosen:false,
   rooms_id: 6 //Este id es default, debe cambiarse
+
   }
 }
 
@@ -61,18 +66,17 @@ save(){
     return;
   }
   //Insert
-  this.http.post<BingoNumber> (this.baseUrl + 'api/Bingonumber', {
-   RoomsId : this.bingoNumber.rooms_id,
-   number : this.bingoNumber.number,
-   IsChosen : this.bingoNumber.is_chosen
-   
-
-  }).subscribe(result => { 
-  console.log(result);
+     this.http.post<BingoNumber> (this.baseUrl + 'api/Bingonumber', {
+      number : this.bingoNumber.number,
+      IsChosen : this.bingoNumber.isChosen,
+      RoomsId : this.bingoNumber.roomsId
+    }).subscribe(result => { 
+      console.log(result); 
   }, error => console.error(error));
 }
 
 generateNumberTombola(){
+
   
   this.newBingoNumber();
   for (var i = 1; i < 76; i++)
@@ -80,6 +84,7 @@ generateNumberTombola(){
     this.bingoNumber.number=i; 
     this.save();   
   
+
   }
 }
 
