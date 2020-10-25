@@ -13,6 +13,7 @@ namespace RedCrossBingo.Controller
     public class BingonumberController : ControllerBase
     {
         private readonly DataBaseContext _context;
+       
         public BingonumberController(DataBaseContext context)
         {
             _context = context;
@@ -34,21 +35,24 @@ namespace RedCrossBingo.Controller
         }
 
         
-        [HttpGet("{number}")]
-        public async Task<ActionResult<BingoNumbers>> GetNumber([FromQuery] long roomsId, long number)
-        {    
-            Console.WriteLine(roomsId+number);      
-            var cards = await _context.BingoNumbers.ToListAsync(); 
-            var cardList= cards.Where(r=> r.RoomsId== roomsId);
-            var cardNum= cardList.Where(r=>r.number==number);
-            var result=new BingoNumbers();
-            result=(BingoNumbers)cardNum;
-    
-            if (result == null)
+        [HttpGet("{roomsId}/{number}")]
+        public async Task<ActionResult<BingoNumbers>> GetNumber(long roomsId, long number)
+        {
+            //Console.WriteLine(roomsId + number);
+            var cards = await _context.BingoNumbers.ToListAsync();
+            var bingo= new BingoNumbers();
+            //long numberTemp=0;
+            foreach (var cr in cards.Where(e => e.RoomsId == roomsId && e.number==number))
+            {
+                bingo.Id = cr.Id;
+                bingo.number= cr.number;
+                bingo.RoomsId = cr.RoomsId;               
+            }
+            if (bingo == null)
             {
                 return NotFound();
             }
-            return result;
+            return Ok(bingo);
         }
 
     }

@@ -9,8 +9,8 @@
 <body>
   <div class="newNumber">
     <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
-        <h1 id="number">00</h1>     
-    <button mat-raised-button class="btn btn-info" (click)="newRandom()">New number</button>
+        <h1 id="number" [(ngModel)] = "bingoNumber.number" >00</h1>     
+    <button mat-raised-button class="btn btn-info" (click)="getNumber()">New number</button>
 </div> 
 
 </body>

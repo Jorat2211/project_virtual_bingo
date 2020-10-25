@@ -18,11 +18,23 @@ export class GameComponent  {
   public cards : Array<BingoCard>; 
   public card : BingoCard; 
   public number : BingoCardsNumbers; 
+  private numberChooseTrue: number[];
+
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.getCards(); 
+    this.newCardNumber();
+    
    }
 
+  newCardNumber(){
+    this.bingoNumber={
+      id:-1,
+      number: 0,
+      is_chosen: false,
+      rooms_id:-1
+    }
+  }
 
 
  paintNumbers(){
@@ -84,17 +96,24 @@ generateNumberTombola(){
 }
 
 getNumber(){
-  this.newRandom();
-  this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber').subscribe(result => {
-    
-    
-  }, error => console.error(error));
+  var numberRandom = this.newRandom();
+  console.log(numberRandom);
+  if(!this.numberChooseTrue.includes(numberRandom)){
+    console.log("entro");
+    // this.numberChooseTrue.push(numberRandom);
+    // console.log(this.numberChooseTrue);
+    // this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '6/' + numberRandom).subscribe(result => {
+    //   var bingoNumber = result as BingoNumber;
+    //   this.bingoNumber.number = bingoNumber.number;
+    // }, error => console.error(error));
+  }
+  
 }
 
   newRandom() {
     const min = 1;
     const max = 75;
-    document.getElementById("number").innerHTML=Math.floor(Math.random() * (max - min + 1) + min).toString();
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
  
 
