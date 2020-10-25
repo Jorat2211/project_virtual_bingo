@@ -30,7 +30,7 @@ namespace RedCrossBingo.Controller
         public async Task<ActionResult<BingoNumbers>> PostBingoNumbers(BingoNumbers b)
         {
             _context.BingoNumbers.Add(b);
-            await _context.SaveChangesAsync();
+             await _context.SaveChangesAsync();
             return CreatedAtAction("GetBingoNumbers", new { id = b.Id }, b);
         }
 
