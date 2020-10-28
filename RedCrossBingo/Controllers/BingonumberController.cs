@@ -13,6 +13,7 @@ namespace RedCrossBingo.Controller
     public class BingonumberController : ControllerBase
     {
         private readonly DataBaseContext _context;
+       
         public BingonumberController(DataBaseContext context)
         {
             _context = context;
@@ -25,6 +26,13 @@ namespace RedCrossBingo.Controller
         }
 
 
+        [HttpGet("{isChoose}")]
+        public async Task<ActionResult<IEnumerable<BingoNumbers>>> GetNumberTrue(bool isChoose)
+        {
+            var info = await _context.BingoNumbers.Where(r=> r.IsChosen == isChoose).ToListAsync();
+            return info;
+        }
+
         [HttpPost]
         public async Task<ActionResult<BingoNumbers>> PostBingoNumbers(BingoNumbers b)
         {
@@ -33,16 +41,63 @@ namespace RedCrossBingo.Controller
             return CreatedAtAction("GetBingoNumbers", new { id = b.Id }, b);
         }
 
-        [HttpGet("{roomsId}")]
-        public async Task<ActionResult<IEnumerable<BingoNumbers>>> GetNumber(long roomsId)
+        
+        [HttpGet("{roomsId}/{number}")]
+        public async Task<ActionResult<BingoNumbers>> GetNumber(long roomsId, long number)
         {
-            var cards = await _context.BingoNumbers.Where(c=> c.RoomsId == roomsId).ToListAsync(); 
-            if (cards == null)
+            
+            var cards = await _context.BingoNumbers.ToListAsync();
+            var bingo= new BingoNumbers();
+           
+            foreach (var cr in cards.Where(e => e.RoomsId == roomsId && e.number==number))
+            {
+                bingo.Id = cr.Id;
+                bingo.number= cr.number;
+                bingo.RoomsId = cr.RoomsId;               
+            }
+            if (bingo == null)
             {
                 return NotFound();
             }
-            return cards;
+            return Ok(bingo);
+        }
+
+  [HttpPut("{id}")]
+        public async Task<IActionResult> PutBingo(long id, BingoNumbers bingo)
+        {
+            
+            if (id != bingo.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(bingo).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+               if (!numberExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        private bool numberExists(long id)
+        {
+            return _context.BingoNumbers.Any(e => e.Id == id);
         }
 
     }
+
+
 }
