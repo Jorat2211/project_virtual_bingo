@@ -6,54 +6,56 @@
     padding: 25px ;
     box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
     border-radius: 10px 0px 20px 0px;
-    opacity: 85%;
     background-color: black;
     height: auto;
+    opacity: 85%;
   
 }
 
 .divCards{
-    float: right;
+    background-color: rgba(0, 7, 1, 0.884);
     color: rgb(217, 79, 245);
-    top: 3%; 
-    width: 50%;
-    text-align: center;  
-    padding: 25px ;
+    margin-top: 30%; 
+    padding-top: 2%;
+    width: 106%;
+    text-align: left;
     box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
     border-radius: 10px 0px 20px 0px;
-    opacity: 85%;
-    background-color: black;
     height: auto;
-  
+    display: inline-block;
+    user-select: none;
+
 }
 
 
-.cardBingo{
-    float: right;
-    color: rgb(217, 79, 245);
-    top: 3%; 
-    width: 50%;
+#cardBingo{
     text-align: center;  
-    padding: 25px ;
-    box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
-    border-radius: 10px 0px 20px 0px;
-    opacity: 85%;
-    background-color: black;
     height: auto;
-    display:flex; 
+    display: inline-block;
+    width: auto;
+    margin: 1%;
+    padding-bottom: 2%;
+    background-color: rgba(77, 201, 194, 0.849);
 }
 
 #cardNumber{
-    color: rgb(217, 79, 245);
-    top: 3%; 
-    width: 50%;
-    text-align: center;  
-    padding: 25px ;
-    box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
-    border-radius: 10px 0px 20px 0px;
-    opacity: 85%;
-    background-color: black;
     height: auto;
+    display: flex;
+    display: inline-block;
+    width: auto;
+    margin: auto;
 }
 
-
+#imagen{
+    width: 30%;
+    height: 30%;
+}
+#number{
+    color: rgb(97, 4, 66);
+}
+#background-number{
+    background-color: rgb(228, 228, 228);
+}
+#title{
+    color: black;
+}

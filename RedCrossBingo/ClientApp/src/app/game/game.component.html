@@ -7,32 +7,24 @@
     <title>Game</title>
 </head>
 <body>
-  <div class="newNumber">
-    <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
-        <h1 id="number">00</h1>     
-    <button mat-raised-button class="btn btn-info" (click)="newRandom()">New number</button>
+    <div class="newNumber">
+        <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
+            <h1 id="number">00</h1>     
+        <button mat-raised-button class="btn btn-info" (click)="newRandom()">New number</button>
     </div> 
-    <div class="divCards">
-        <input type="button" (click)="paintNumbers()" value="My cards">
-        <div *ngIf="cards" >
-            <div class="cardBingo" *ngFor= "let c of cards">
-                <div class="card" style="width: 15rem;" >
-                    <div class="card-body">
-                        <p class="card-text"> CardBingo #: {{ c.id}}</p>
-                    </div>
-                    <div *ngFor= "let n of c.bingoCardNumbers">
-                        <div class="card" style="width: 5rem;" >
-                            <div  class="card-body">
-                                <p class="card-text"> {{ n.number}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="divCards" *ngIf="cards" >
+         <div *ngFor= "let c of cards" id="cardBingo" class="card" style="width: 23rem;"> 
+                <img id="imagen" class="rounded-circle profile-img-card"
+                src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" />
+                <b><h4 id="title">RED CROSS {{ c.id}}</h4> </b>
+                <div id="cardNumber" *ngFor= "let n of c.bingoCardNumbers" class="card" style="width: 4rem;" >
+                    <div id="background-number" class="card-body">
+                      <b> <p id="number" class="card-text"> {{ n.number}}</p></b> 
+                    </div> 
             </div>
         </div>
     </div>
 </body>
-
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
     integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"

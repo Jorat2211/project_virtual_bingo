@@ -68,7 +68,7 @@ saveBingoCards(){
 generateNumbers(){
   let list = [];
   let num = this.getRamdon();
-  for(let i = 0; i < 15; i++){
+  for(let i = 0; i < 25; i++){
       while(!this.isSame(num, list)){
           num = this.getRamdon();
       }
