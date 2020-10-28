@@ -17,14 +17,11 @@ export class GameComponent  {
 
   public bingoNumber : BingoNumber;
   public cards : Array<BingoCard>; 
-<<<<<<< HEAD
   public numbers : Array<BingoCardsNumbers>; 
-=======
   public card : BingoCard; 
   public number : BingoCardsNumbers; 
   private numberChooseTrue: number[];
 
->>>>>>> 3a94585d2058f6b734396eb50a05af59798c1272
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
 
@@ -72,7 +69,7 @@ newBingoNumber(){
   id:0,
   number: 0,
   isChosen:false,
-  roomsId:6 //Este id es default, debe cambiarse
+  roomsId:3 //Este id es default, debe cambiarse
   }
 }
 
@@ -104,7 +101,7 @@ getNumber(){
   if(!this.numberChooseTrue.includes(numberRandom)){
      this.numberChooseTrue.push(numberRandom);
      console.log(this.numberChooseTrue);
-     this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '6/' + numberRandom).subscribe(result => {
+     this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '3/' + numberRandom).subscribe(result => {
        var bingoNumberResult = result as BingoNumber;
        bingoNumberResult.isChosen=true;
       this.updateNumber(bingoNumberResult);
