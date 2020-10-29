@@ -7,10 +7,13 @@
     <title>Game</title>
 </head>
 <body>
-    <div class="newNumber">
+    <div class="newNumber" >
         <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
-            <h1 id="number">00</h1>     
-        <button mat-raised-button class="btn btn-info" (click)="newRandom()">New number</button>
+         <h1  >{{bingoNumber.number}}</h1>     
+        <button mat-raised-button class="btn btn-info" (click)="getNumber()">New number</button>
+        <button mat-raised-button class="btn btn-info" (click)="verLista()">Ver lista</button>
+
+
     </div> 
     <div class="divCards" *ngIf="cards" >
          <div *ngFor= "let c of cards" id="cardBingo" class="card" style="width: 23rem;"> 
@@ -18,21 +21,16 @@
                 src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" />
                 <b><h4 id="title">RED CROSS {{ c.id}}</h4> </b>
                 <div id="cardNumber" *ngFor= "let n of c.bingoCardNumbers" class="card" style="width: 4rem;" >
-                    <div id="background-number" class="card-body">
-                      <b> <p id="number" class="card-text"> {{ n.number}}</p></b> 
+                <div [style.background-color] ="!n.isSelected ? 'rgb(228, 228, 228)': 'rgb(182, 182, 182)'" 
+                    class="card-body">
+                      <b><p id="number" class="card-text"> {{ n.number}}</p></b> 
                     </div> 
             </div>
         </div>
     </div>
-  <div class="newNumber">
-    <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
-     <h1  >{{bingoNumber.number}}</h1>     
-    <button mat-raised-button class="btn btn-info" (click)="getNumber()">New number</button>
-
-
-
-
-</div> 
+   <div id="cardNumber" *ngFor= "let n of numberChooseTrue" class="card-body">
+        <b><p id="number"class="card-text"> {{ n}}</p></b> 
+   </div>
 
 </body>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"

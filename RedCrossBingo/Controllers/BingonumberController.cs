@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RedCrossBingo.Models;
+using RedCrossBingo.Hubs; 
+using Microsoft.AspNetCore.SignalR; 
 
 namespace RedCrossBingo.Controller
 {
@@ -13,10 +15,13 @@ namespace RedCrossBingo.Controller
     public class BingonumberController : ControllerBase
     {
         private readonly DataBaseContext _context;
+        public readonly IHubContext<BingoHub> _hubContext; 
+
        
-        public BingonumberController(DataBaseContext context)
+        public BingonumberController(DataBaseContext context,IHubContext<BingoHub> hubContex)
         {
             _context = context;
+            _hubContext = hubContex; 
         }
 
         [HttpGet]
@@ -62,7 +67,7 @@ namespace RedCrossBingo.Controller
             return Ok(bingo);
         }
 
-  [HttpPut("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutBingo(long id, BingoNumbers bingo)
         {
             
@@ -75,7 +80,11 @@ namespace RedCrossBingo.Controller
 
             try
             {
+                
                 await _context.SaveChangesAsync();
+                //mandar al hub 
+                SendNumberbingo(bingo); 
+               
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -96,6 +105,12 @@ namespace RedCrossBingo.Controller
         {
             return _context.BingoNumbers.Any(e => e.Id == id);
         }
+
+      public IActionResult SendNumberbingo( BingoNumbers bingo){
+            string b = Newtonsoft.Json.JsonConvert.SerializeObject(bingo); 
+             _hubContext.Clients.All.SendAsync("SendBingoNumber", b); 
+            return Ok(new {resp = "Send number"}); 
+      }
 
     }
 

@@ -1,9 +1,11 @@
 
-import { Component, Inject} from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {BingoCardsNumbers} from './bingocardnumbers.interface';
 import {BingoCard} from './bingocards.interface';
 import { BingoNumber } from './bingonumbers.interface';
+import {SignalServiceService} from './../services/signal-service.service'; 
+import { send } from 'process';
 
 
 @Component({
@@ -12,25 +14,39 @@ import { BingoNumber } from './bingonumbers.interface';
   styleUrls: ['./game.component.css']
 })
 
-export class GameComponent  {
-  public roomsId = 3; 
+export class GameComponent  implements OnInit {
+  public roomsId = 4; 
 
-  public bingoNumber : BingoNumber;
-  public cards : Array<BingoCard>; 
-  public numbers : Array<BingoCardsNumbers>; 
-  public card : BingoCard; 
-  public number : BingoCardsNumbers; 
+  public bingoNumber : BingoNumber; //Number bingo
+  public cards : Array<BingoCard>;  //Cards in room
+  public numbers : Array<BingoCardsNumbers>;  // numbers for each cards
+  public card : BingoCard; //card bingo 
+ // public number : BingoCardsNumbers; 
   private numberChooseTrue: number[];
 
+  private numberReceives : BingoNumber[] = []; 
 
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
-
+  constructor( private service : SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.getCards(); 
     this.newCardNumber();
     this.numberChooseTrue = [];
     this.getNumbersTrue();
-    
+    this.paintNumbers(); 
    }
+
+   ngOnInit(): void {
+    this.service.eNotificarNumber.subscribe((numberReceive) =>{
+      var r  = numberReceive as BingoNumber; 
+        this.numberChooseTrue.push(r.number); 
+       this.numberReceives.push (numberReceive); 
+       //Search number for each card and update in the db
+     });
+  }
+
+
+verNum(){
+  console.log(this.numberReceives); 
+}
 
   newCardNumber(){
     this.bingoNumber={
@@ -50,6 +66,7 @@ export class GameComponent  {
       this.cards.forEach(card=> {
         card.bingoCardNumbers.forEach(e => {
         let num = new BingoCardsNumbers().convertToBingoCardsNumbers(e); 
+        console.log(num); 
         this.numbers.push(num); 
        });
       });
@@ -69,7 +86,7 @@ newBingoNumber(){
   id:0,
   number: 0,
   isChosen:false,
-  roomsId:3 //Este id es default, debe cambiarse
+  roomsId:4 //Este id es default, debe cambiarse
   }
 }
 
@@ -93,22 +110,27 @@ generateNumberTombola(){
   }
 }
 
+verLista(){
+  this.numberChooseTrue = []; 
+  this.getNumbersTrue();
+ // console.log(this.numberChooseTrue);
+}
+
+
 getNumber(){
   var numberRandom = this.newRandom();
   while(this.numberChooseTrue.includes(numberRandom)){
     numberRandom= this.newRandom();
   }
   if(!this.numberChooseTrue.includes(numberRandom)){
-     this.numberChooseTrue.push(numberRandom);
-     console.log(this.numberChooseTrue);
-     this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '3/' + numberRandom).subscribe(result => {
+     //this.numberChooseTrue.push(numberRandom);
+     this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '4/' + numberRandom).subscribe(result => {
        var bingoNumberResult = result as BingoNumber;
        bingoNumberResult.isChosen=true;
-      this.updateNumber(bingoNumberResult);
+       this.updateNumber(bingoNumberResult);
        this.bingoNumber.number = bingoNumberResult.number;
      }, error => console.error(error));
   }
-  
 }
 
 getNumbersTrue(){
@@ -117,7 +139,9 @@ getNumbersTrue(){
       this.numberChooseTrue.push(element.number);
     });
   }, error => console.error(error));
+
 }
+
 
   newRandom() {
     const min = 1;

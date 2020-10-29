@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RedCrossBingo.Models;
+using RedCrossBingo.Hubs; 
 
 namespace RedCrossBingo
 {
@@ -22,6 +23,16 @@ namespace RedCrossBingo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+             services.AddCors(opt =>{
+                opt.AddPolicy("all", builder =>{
+                    builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .SetIsOriginAllowed((Host)=> true)
+                    .AllowCredentials()
+                    .WithOrigins("https://localhost:5001");
+                });
+            });
+            services.AddSignalR(); 
             services.AddDbContext<DataBaseContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")).UseSnakeCaseNamingConvention());
             services.AddControllersWithViews();
 
@@ -51,6 +62,7 @@ namespace RedCrossBingo
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCors("all"); 
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -60,6 +72,7 @@ namespace RedCrossBingo
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<BingoHub>("/api/Bingonumber/-1"); 
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
