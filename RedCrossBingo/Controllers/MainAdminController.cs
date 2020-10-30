@@ -19,29 +19,28 @@ namespace RedCrossBingo.Controller
 
         // http post
 
-        // http get
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rooms>>> GetRooms()
+        [HttpPost]
+        public async Task<ActionResult<Rooms>> PostRoom (Rooms rooms)
         {
-            return await _context.Rooms.ToListAsync();
+            _context.Rooms.Add(rooms);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetRooms", new { id = rooms.Id }, rooms);
+        }
+
+        // http get
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Rooms>>> GetRooms(long id)
+        {
+            var rooms = await _context.Rooms.Where(x => x.UsersId == id).ToListAsync();
+            if (rooms != null)
+            {
+                return Ok(rooms);
+            }
+            return null;
         }
 
         // http delete
 
-
-        // [HttpPost("login")]
-        // public IActionResult login(Users credentials)
-        // {
-        //     bool loginStatus;
-        //     var user = _context.users.Where(x => x.Email == credentials.Email && x.Password == credentials.Password).FirstOrDefault();
-        //     if (user != null)
-        //     {
-        //         loginStatus = true;
-        //         return Ok(loginStatus);
-        //     }
-        //     loginStatus = false;
-        //     return Ok(loginStatus);
-        // }
     }
 }

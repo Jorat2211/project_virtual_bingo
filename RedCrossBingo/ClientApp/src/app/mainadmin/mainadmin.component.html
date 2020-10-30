@@ -18,47 +18,49 @@
           <div class="card-body">
             <form>
               <h3>Create new room</h3>
+              <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Name" [(ngModel)]="room.name">
+                <small *ngIf="erroremail" id="nameerror" class="form-text text-muted"></small>
+              </div>
               <div class="input-group">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="url" placeholder="URL" [(ngModel)]="room.url">
                 <div class="input-group-append">
                   <button class="btn btn-outline-success" type="button">Copy and Share!</button>
                 </div>
               </div>
               <br>
-              <button type="submit" class="btn btn-primary btnGenerate">Generate URL</button>
+              <button class="btn btn-primary btnGenerate" (click)="newURL()">Generate URL</button>
             </form>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="card">
-          <table class="table">
+          <table class="table" *ngIf="rooms">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Id_user</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+              <tr *ngFor="let room of rooms">
+                <td>{{ room.id }}</td>
+                <td>{{ room.name }}</td>
+                <td>{{ room.url }}</td>
+                <td>{{ room.usersId }}</td>
+                <!-- <td>
+                  <div *ngIf="!animal.confirmation">
+                    <button class="btn btn-warning mr-2" (click)="edit(animal)">Edit</button>
+                    <button class="btn btn-danger" (click)="animal.confirmation = true">Delete</button>
+                  </div>
+                  <div *ngIf="animal.confirmation">
+                    <button class="btn btn-danger mr-2" (click)="animal.confirmation = false">Cancel</button>
+                    <button class="btn btn-success" (click)="deleteAnimal(animal)">Confirm</button>
+                  </div>
+                </td> -->
               </tr>
             </tbody>
           </table>
@@ -73,6 +75,5 @@
   integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
 
 </html>
