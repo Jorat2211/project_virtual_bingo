@@ -33,5 +33,44 @@ namespace RedCrossBingo.Controller
             return CreatedAtAction("GetBingoCards", new { id = b.Id }, b);
         }
 
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutNumero(long id, BingoCardNumbers number)
+        {
+            System.Console.WriteLine("Numbers " + number.IsSelected);
+            if (id != number.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(number).State = EntityState.Modified;
+
+            try
+            {
+                
+                await _context.SaveChangesAsync();
+                //mandar al hub 
+               
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+               if (!numberExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        private bool numberExists(long id)
+        {
+            return _context.BingoCardNumbers.Any(e => e.Id == id);
+        }
+
     }
 }

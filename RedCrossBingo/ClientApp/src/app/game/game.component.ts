@@ -6,6 +6,7 @@ import {BingoCard} from './bingocards.interface';
 import { BingoNumber } from './bingonumbers.interface';
 import {SignalServiceService} from './../services/signal-service.service'; 
 import { send } from 'process';
+import { threadId } from 'worker_threads';
 
 
 @Component({
@@ -38,16 +39,39 @@ export class GameComponent  implements OnInit {
     this.service.eNotificarNumber.subscribe((numberReceive) =>{
       var r  = numberReceive as BingoNumber; 
         this.numberChooseTrue.push(r.number); 
-       this.numberReceives.push (numberReceive); 
+     //  this.numberReceives.push (numberReceive); 
        //Search number for each card and update in the db
+       this.updateNumberIsSelected(r.number); 
+       this.getCards();
      });
   }
 
+updateNumberIsSelected(number: Number){
+  console.log("Estoy validando:  "+ number ); 
 
-verNum(){
-  console.log(this.numberReceives); 
+  this.cards.forEach(card => {
+    card.bingoCardNumbers.forEach(numberCard=> {
+      if(number == numberCard.number){
+        console.log("Funciono " ); 
+        var r = new BingoCardsNumbers().convertToBingoCardsNumbers(numberCard); 
+        r.isSelected = true; 
+        this.updateCardNumber(r);
+        //Vaya actualizar el carton, hub y de ahi al cliente 
+      }
+    });
+
+  });
 }
-
+updateCardNumber(number : BingoCardsNumbers){
+  if(number.id > 0){
+    //update
+    console.log("Imprimiendo numero update: " + number.isSelected); 
+    this.http.put<BingoCardsNumbers>(this.baseUrl +'api/Bingocardnumbers/'+number.id, number).subscribe(result=>{
+      console.log(result); 
+    }, error=>console.error(error));
+    return;
+  }
+}
   newCardNumber(){
     this.bingoNumber={
       id:-1,

@@ -52,7 +52,9 @@
     height: 30%;
 }
 #number{
+   
     color: rgb(97, 4, 66); 
+    font-size:80%;
 
 }
 #background-number{
