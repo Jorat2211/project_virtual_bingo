@@ -8,20 +8,6 @@ namespace RedCrossBingo.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "rooms",
-                columns: table => new
-                {
-                    id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(nullable: true),
-                    url = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_rooms", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -33,6 +19,27 @@ namespace RedCrossBingo.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "rooms",
+                columns: table => new
+                {
+                    id = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(nullable: true),
+                    url = table.Column<string>(nullable: true),
+                    users_id = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_rooms", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_rooms_users_users_id",
+                        column: x => x.users_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,6 +117,11 @@ namespace RedCrossBingo.Migrations
                 name: "ix_bingo_numbers_rooms_id",
                 table: "bingo_numbers",
                 column: "rooms_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_rooms_users_id",
+                table: "rooms",
+                column: "users_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -121,13 +133,13 @@ namespace RedCrossBingo.Migrations
                 name: "bingo_numbers");
 
             migrationBuilder.DropTable(
-                name: "users");
-
-            migrationBuilder.DropTable(
                 name: "bingo_cards");
 
             migrationBuilder.DropTable(
                 name: "rooms");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }
