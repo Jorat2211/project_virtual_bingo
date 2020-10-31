@@ -33,6 +33,7 @@ namespace RedCrossBingo.Controller
         public async Task<ActionResult<IEnumerable<Rooms>>> GetRooms(long id)
         {
             var rooms = await _context.Rooms.Where(x => x.UsersId == id).ToListAsync();
+            System.Console.WriteLine("Sala " + id);
             if (rooms != null)
             {
                 return Ok(rooms);

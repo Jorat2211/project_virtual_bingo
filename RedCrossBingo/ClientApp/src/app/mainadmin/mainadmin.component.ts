@@ -31,7 +31,7 @@ export class MainAdminComponent {
   }
 
   refresh() {
-    this.http.get<Room[]>(this.baseUrl + 'api/MainAdmin/1').subscribe(result => {
+    this.http.get<Room[]>(this.baseUrl + 'api/MainAdmin/4').subscribe(result => {
       this.rooms = result;
     }, error => console.error(error));
   }

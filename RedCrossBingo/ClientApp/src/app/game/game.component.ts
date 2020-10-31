@@ -5,8 +5,6 @@ import {BingoCardsNumbers} from './bingocardnumbers.interface';
 import {BingoCard} from './bingocards.interface';
 import { BingoNumber } from './bingonumbers.interface';
 import {SignalServiceService} from './../services/signal-service.service'; 
-import { send } from 'process';
-import { threadId } from 'worker_threads';
 
 
 @Component({
@@ -25,7 +23,6 @@ export class GameComponent  implements OnInit {
  // public number : BingoCardsNumbers; 
   private numberChooseTrue: number[];
 
-  private numberReceives : BingoNumber[] = []; 
 
   constructor( private service : SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.getCards(); 
