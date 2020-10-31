@@ -10,9 +10,13 @@ import swal from 'sweetalert';
 })
 export class LoginComponent {
 
-  user: User;
+  private user: User;
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+    this.newUser();
+  }
+
+  newUser() {
     this.user = {
       id: -1,
       email: "",
@@ -24,19 +28,22 @@ export class LoginComponent {
     this.http.post(this.baseUrl + 'api/User/login', this.user).subscribe((data) => {
       if (data) {
         var user = data as User;
-        console.log(user.id);
-        swal("Welcome", "You have successfully logged in!", "success");
-
-        
-         window.location.href = 'https://localhost:5001/Game';
-
-        //window.location.href = 'https://localhost:5001/MainAdmin';
-
+        // console.log(user.id);
+        localStorage.setItem('user', JSON.stringify(user));
+        swal({
+          title: "Welcome",
+          text: "You have successfully logged in!",
+          icon: "success",
+          buttons: {
+            showConfirmButton: false,
+          }
+        })
+        window.location.href = 'https://localhost:5001/MainAdmin';
       } else {
-        swal("Login", "Email or ppassword incorrect!", "warning")
+        swal("Login", "Email or password incorrect!", "warning")
       }
 
-    }, error => console.error(alert("Email or ppassword incorrect")));
+    }, error => console.error(alert("Email or password incorrect")));
   }
 
 }

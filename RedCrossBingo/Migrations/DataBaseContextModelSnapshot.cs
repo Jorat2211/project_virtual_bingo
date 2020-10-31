@@ -105,16 +105,23 @@ namespace RedCrossBingo.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .HasColumnName("name")
                         .HasColumnType("text");
 
-                    b.Property<string>("url")
+                    b.Property<string>("Url")
                         .HasColumnName("url")
                         .HasColumnType("text");
 
+                    b.Property<long>("UsersId")
+                        .HasColumnName("users_id")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id")
                         .HasName("pk_rooms");
+
+                    b.HasIndex("UsersId")
+                        .HasName("ix_rooms_users_id");
 
                     b.ToTable("rooms");
                 });
@@ -167,6 +174,16 @@ namespace RedCrossBingo.Migrations
                         .WithMany("BingoNumbers")
                         .HasForeignKey("RoomsId")
                         .HasConstraintName("fk_bingo_numbers_rooms_rooms_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RedCrossBingo.Models.Rooms", b =>
+                {
+                    b.HasOne("RedCrossBingo.Models.Users", "Users")
+                        .WithMany("Rooms")
+                        .HasForeignKey("UsersId")
+                        .HasConstraintName("fk_rooms_users_users_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
