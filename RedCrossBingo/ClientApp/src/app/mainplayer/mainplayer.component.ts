@@ -31,7 +31,7 @@ export class MainplayerComponent {
 newCard(){
   this.card = {
     id : 0,
-    rooms_id : 4 //Este id es default, debe cambiarse
+    rooms_id : 1 //Este id es default, debe cambiarse
   }
 }
 
