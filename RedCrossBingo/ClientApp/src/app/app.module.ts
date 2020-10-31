@@ -14,6 +14,7 @@ import { LoginComponent } from "./login/login.component";
 import { MainAdminComponent } from "./mainadmin/mainadmin.component"; 
 import {MainplayerComponent} from "./mainplayer/mainplayer.component"; 
 import {GameComponent} from "./game/game.component"; 
+import {MaintombolaComponent} from "./maintombola/maintombola.component"; 
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {GameComponent} from "./game/game.component";
     LoginComponent,
     MainAdminComponent,
     MainplayerComponent,
-    GameComponent
+    GameComponent,
+    MaintombolaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,6 +42,7 @@ import {GameComponent} from "./game/game.component";
       { path: 'MainAdmin', component: MainAdminComponent },     
       { path: 'MainPlayer', component: MainplayerComponent },
       { path: 'Game', component: GameComponent },
+      { path: 'MainTombola', component: MaintombolaComponent },
 
     ])
   ],
