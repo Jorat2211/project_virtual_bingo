@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import swal from 'sweetalert';
 import { Room } from './mainadmin.interface';
 import { ActivatedRoute } from '@angular/router';
+import { User } from './user.interface';
 
 
 @Component({
@@ -14,11 +15,22 @@ export class MainAdminComponent {
 
   private room: Room;
   private rooms: Room[];
-  
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) {
+  private user: User;
+
+  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+    this.userLogueado();
     this.newRoom();
     this.refresh();
-    console.log(this._route.snapshot.paramMap.get('name'));
+    // console.log(this._route.snapshot.paramMap.get('name'));
+  }
+
+  userLogueado() {
+    var user = JSON.parse(localStorage.getItem('user'));
+    this.user = {
+      id: user['id'],
+      email: user['email'],
+      password: user['password'],
+    }
   }
 
   newRoom() {
@@ -31,24 +43,26 @@ export class MainAdminComponent {
   }
 
   refresh() {
-    this.http.get<Room[]>(this.baseUrl + 'api/MainAdmin/1').subscribe(result => {
+    this.http.get<Room[]>(this.baseUrl + 'api/MainAdmin/' + this.user.id).subscribe(result => {
       this.rooms = result;
     }, error => console.error(error));
   }
 
   newURL() {
-    var url = 'https://localhost:5001/Room/' + this.room.name;
-      this.http.post<Room>(this.baseUrl + 'api/MainAdmin', {
-        name: 'mesa1',
-        url: url,
-        usersid: 1,
+    var name = this.room.name.toLowerCase().trim();
+    var url = this.baseUrl + 'Room/' + name;
+    this.http.post<Room>(this.baseUrl + 'api/MainAdmin', {
+      name: name,
+      url: url,
+      usersid: this.user.id,
 
-      }).subscribe(result => {
-        if (result) {
-          this.room.url = url;
-          swal("Good job!", "URL generated", "success");
-        }
-        // this.refresh();
-      }, error => console.error(error));
+    }).subscribe(result => {
+      if (result) {
+        this.room.url = url;
+        swal("Good job!", "URL generated", "success");
+      }
+      this.refresh();
+      this.room.name = "";
+    }, error => console.error(error));
   }
 }
