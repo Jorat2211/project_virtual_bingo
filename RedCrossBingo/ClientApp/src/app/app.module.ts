@@ -35,7 +35,7 @@ import {GameComponent} from "./game/game.component";
     RouterModule.forRoot([
       { path: '', component: LoginComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'fetch-data/:room', component: FetchDataComponent },
       { path: 'Login', component: LoginComponent },
       { path: 'MainAdmin', component: MainAdminComponent },     
       { path: 'MainPlayer', component: MainplayerComponent },
