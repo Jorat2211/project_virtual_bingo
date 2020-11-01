@@ -30,6 +30,7 @@ export class MainAdminComponent {
     console.log(this.logueado['user']['id']);
     console.log(this.logueado['user']['email']);
     console.log(this.logueado['user']['password']);
+    
 
     this.user = {
       id: this.logueado['user']['id'],

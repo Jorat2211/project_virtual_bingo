@@ -29,7 +29,6 @@ export class MainplayerComponent {
     }
   }
 
-
 newCard(){
   this.card = {
     id : 0,
