@@ -7,13 +7,12 @@
     <title>Game</title>
 </head>
 <body>
-    
     <div class="newNumber" >
-         <h1  >{{bingoNumber.number}}</h1>            
+        <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
+         <h1  >{{bingoNumber.number}}</h1>     
+        <button mat-raised-button class="btn btn-info" (click)="getNumber()">New number</button>      
     </div> 
 
-
- 
 
     <div  id="cardBingoPri" class="card" > 
            <img id="imagenT" class="rounded-circle profile-img-card"
@@ -23,20 +22,6 @@
        </div>
    </div>
 
-
-    <div class="divCards" *ngIf="cards" >
-         <div *ngFor= "let c of cards" id="cardBingo" class="card" style="width: 23rem;"> 
-                <img id="imagen" class="rounded-circle profile-img-card"
-                src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" />
-                <b><h4 id="title">RED CROSS {{ c.id}}</h4> </b>
-                <div id="cardNumber" *ngFor= "let n of c.bingoCardNumbers" class="card" style="width: 4rem;" >
-                <div [style.background-color] ="!n.isSelected ? 'rgb(228, 228, 228)': 'rgb(182, 182, 182)'" 
-                    class="card-body">
-                      <b><p id="number" class="card-text"> {{ n.number}}</p></b> 
-                    </div> 
-            </div>
-        </div>
-    </div>
 
 </body>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
@@ -54,3 +39,6 @@
     crossorigin="anonymous"></script>
 
 </html>
+
+
+

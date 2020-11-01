@@ -16,6 +16,8 @@ import {MainplayerComponent} from "./mainplayer/mainplayer.component";
 import {GameComponent} from "./game/game.component"; 
 import { AuthGuardGuard } from './auth-guard.guard';
 import { JwtModule } from '@auth0/angular-jwt';
+import {MaintombolaComponent} from "./maintombola/maintombola.component"; 
+
 
 export function tokenGetter() {
    let result: [];
@@ -36,7 +38,8 @@ export function tokenGetter() {
     LoginComponent,
     MainAdminComponent,
     MainplayerComponent,
-    GameComponent
+    GameComponent,
+    MaintombolaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,6 +53,7 @@ export function tokenGetter() {
       { path: 'MainAdmin', component: MainAdminComponent, canActivate: [AuthGuardGuard] },     
       { path: 'MainPlayer/:roomname', component: MainplayerComponent },
       { path: 'Game', component: GameComponent },
+      { path: 'MainTombola', component: MaintombolaComponent },
 
     ]),
     
