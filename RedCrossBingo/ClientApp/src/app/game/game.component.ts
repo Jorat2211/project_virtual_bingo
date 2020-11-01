@@ -14,15 +14,16 @@ import {SignalServiceService} from './../services/signal-service.service';
 })
 
 export class GameComponent  implements OnInit {
-  public roomsId = 1; 
+  public roomsId = 2; 
 
   public bingoNumber : BingoNumber; //Number bingo
   public cards : Array<BingoCard>;  //Cards in room
   public numbers : Array<BingoCardsNumbers>;  // numbers for each cards
   public card : BingoCard; //card bingo 
- // public number : BingoCardsNumbers; 
   private numberChooseTrue: number[];
 
+
+  public nReceive : number; 
 
   constructor( private service : SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.getCards(); 
@@ -36,38 +37,46 @@ export class GameComponent  implements OnInit {
     this.service.eNotificarNumber.subscribe((numberReceive) =>{
       var r  = numberReceive as BingoNumber; 
         this.numberChooseTrue.push(r.number); 
+        this.nReceive = r.number; 
      //  this.numberReceives.push (numberReceive); 
        //Search number for each card and update in the db
        this.updateNumberIsSelected(r.number); 
-       this.getCards();
+
+      // this.getCards();
+      console.log(this.cards); 
      });
   }
 
 updateNumberIsSelected(number: Number){
-  console.log("Estoy validando:  "+ number ); 
-
   this.cards.forEach(card => {
+    let index  =0; 
+    let lista= card.bingoCardNumbers; 
     card.bingoCardNumbers.forEach(numberCard=> {
+
       if(number == numberCard.number){
-        console.log("Funciono " ); 
         var r = new BingoCardsNumbers().convertToBingoCardsNumbers(numberCard); 
         r.isSelected = true; 
-        this.updateCardNumber(r);
+      var result = this.updateCardNumber(r);
+      console.log(result); 
+//      lista.splice(index,1, result);
         //Vaya actualizar el carton, hub y de ahi al cliente 
       }
+      index++; 
     });
 
   });
+
 }
 updateCardNumber(number : BingoCardsNumbers){
+  let BingN : BingoCardsNumbers = number; 
   if(number.id > 0){
     //update
-    console.log("Imprimiendo numero update: " + number.isSelected); 
     this.http.put<BingoCardsNumbers>(this.baseUrl +'api/Bingocardnumbers/'+number.id, number).subscribe(result=>{
-      console.log(result); 
+      result = result as BingoCardsNumbers; 
+      BingN = result; 
     }, error=>console.error(error));
-    return;
   }
+  return BingN; 
 }
   newCardNumber(){
     this.bingoNumber={

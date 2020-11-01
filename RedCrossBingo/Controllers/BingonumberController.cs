@@ -17,11 +17,13 @@ namespace RedCrossBingo.Controller
         private readonly DataBaseContext _context;
         public readonly IHubContext<BingoHub> _hubContext; 
 
+
        
         public BingonumberController(DataBaseContext context,IHubContext<BingoHub> hubContex)
         {
             _context = context;
             _hubContext = hubContex; 
+            
         }
 
         [HttpGet]

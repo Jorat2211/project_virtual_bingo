@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR; 
 using RedCrossBingo.Models;
-
+using RedCrossBingo.Hubs; 
 namespace RedCrossBingo.Controller
 {
     [ApiController]
@@ -13,9 +14,12 @@ namespace RedCrossBingo.Controller
     public class BingocardsController : ControllerBase
     {
         private readonly DataBaseContext _context;
-        public BingocardsController(DataBaseContext context)
+        public readonly IHubContext<BingoHub> _hubContext; 
+
+        public BingocardsController(DataBaseContext context, IHubContext<BingoHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext; 
         }
 
         [HttpGet]
@@ -24,6 +28,12 @@ namespace RedCrossBingo.Controller
             return await _context.BingoCards.Include(c=> c.BingoCardNumbers ).ToListAsync();
         }
 
+        //  [HttpPut("{contador}")]
+        //  public   IActionResult SendNumbersPlayers(int contador ){
+        //      _hubContext.Clients.All.SendAsync("SendNumbersPlayers", contador); 
+        //     return Ok(new {resp = "Send number"}); 
+
+        // }
 
         [HttpPost]
         public async Task<ActionResult<BingoCards>> PostBingoCards(BingoCards b)

@@ -32,7 +32,7 @@ namespace RedCrossBingo
                     .WithOrigins("https://localhost:5001");
                 });
             });
-            services.AddSignalR(); 
+            services.AddSignalR();
             services.AddDbContext<DataBaseContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")).UseSnakeCaseNamingConvention());
             services.AddControllersWithViews();
 
@@ -73,6 +73,8 @@ namespace RedCrossBingo
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<BingoHub>("/api/Bingonumber/-1"); 
+             //endpoints.MapHub<BingoHub>("/api/Bingonumber"); 
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

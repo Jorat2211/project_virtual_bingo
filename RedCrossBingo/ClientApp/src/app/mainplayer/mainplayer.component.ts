@@ -25,13 +25,23 @@ export class MainplayerComponent {
       this.saveBingoCards(); 
       this.newCard(); 
     }
+   // this.sendConection(); 
+
   }
 
+  // sendConection(){
+  //    //Insert
+  //   let contador = 1; 
+  // this.http.put<Object> (this.baseUrl + 'api/Bingocards/'+contador, {
+  //  }).subscribe(result => {
+  //    console.log("result send: "+result);
+  //  }, error => console.error(error));
+  // }
 
 newCard(){
   this.card = {
     id : 0,
-    rooms_id : 1 //Este id es default, debe cambiarse
+    rooms_id : 2 //Este id es default, debe cambiarse
   }
 }
 

@@ -1,17 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {BingoCardsNumbers} from './bingocardnumbers.interface';
 import {BingoCard} from './bingocards.interface';
 import { BingoNumber } from './bingonumbers.interface';
 import {SignalServiceService} from './../services/signal-service.service'; 
-import { send } from 'process';
 
 @Component({
   selector: 'app-maintombola',
   templateUrl: './maintombola.component.html',
   styleUrls: ['./maintombola.component.css']
 })
-export class MaintombolaComponent {
+export class MaintombolaComponent implements OnInit{
 
   public bingoNumber : BingoNumber; //Number bingo
   public cards : Array<BingoCard>;  //Cards in room
@@ -19,21 +18,34 @@ export class MaintombolaComponent {
   public card : BingoCard; //card bingo 
  // public number : BingoCardsNumbers; 
   private numberChooseTrue: number[];
-
-  private numberReceives : BingoNumber[] = []; 
+  private usersPlaying = 0; 
 
   constructor(private service : SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.numberChooseTrue = [];
     this.getNumbersTrue();
+    this.newBingoNumber();
    }
 
+
+   ngOnInit(): void {
+    this.service.eNotificarNumber.subscribe((numberReceive) =>{
+      var r  = numberReceive as BingoNumber; 
+      this.numberChooseTrue.push(r.number); 
+     //  this.numberReceives.push (numberReceive); 
+       //Search number for each card and update in the db
+     });
+
+     this.service.eNoficUsers.subscribe((result)=>{
+       this.usersPlaying = result; 
+     });
+  }
 
   newBingoNumber(){
     this.bingoNumber = {
     id:0,
     number: 0,
     isChosen:false,
-    roomsId:1 //Este id es default, debe cambiarse
+    roomsId:2//Este id es default, debe cambiarse
     }
   }
 
@@ -71,11 +83,12 @@ export class MaintombolaComponent {
     }
     if(!this.numberChooseTrue.includes(numberRandom)){
        //this.numberChooseTrue.push(numberRandom);
-       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '1/' + numberRandom).subscribe(result => {
+       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '2/' + numberRandom).subscribe(result => {
          var bingoNumberResult = result as BingoNumber;
          bingoNumberResult.isChosen=true;
          this.updateNumber(bingoNumberResult);
          this.bingoNumber.number = bingoNumberResult.number;
+         console.log(this.bingoNumber);
        }, error => console.error(error));
     }
   }

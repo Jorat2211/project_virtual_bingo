@@ -37,7 +37,6 @@ namespace RedCrossBingo.Controller
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNumero(long id, BingoCardNumbers number)
         {
-            System.Console.WriteLine("Numbers " + number.IsSelected);
             if (id != number.Id)
             {
                 return BadRequest();
@@ -50,6 +49,7 @@ namespace RedCrossBingo.Controller
                 
                 await _context.SaveChangesAsync();
                 //mandar al hub 
+                   return CreatedAtAction("GetBingoCards", new { id = number.Id }, number);
                
             }
             catch (DbUpdateConcurrencyException)
@@ -64,7 +64,7 @@ namespace RedCrossBingo.Controller
                 }
             }
 
-            return NoContent();
+            //return NoContent();
         }
 
         private bool numberExists(long id)
