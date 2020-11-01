@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RedCrossBingo.Models;
 
 namespace RedCrossBingo.Controller
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MainAdminController : ControllerBase

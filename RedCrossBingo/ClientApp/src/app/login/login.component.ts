@@ -2,17 +2,20 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './login.interface';
 import swal from 'sweetalert';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent {
 
   private user: User;
+  private logueado: [];
 
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private Router: Router) {
     this.newUser();
   }
 
@@ -27,23 +30,20 @@ export class LoginComponent {
   login() {
     this.http.post(this.baseUrl + 'api/User/login', this.user).subscribe((data) => {
       if (data) {
-        var user = data as User;
-        // console.log(user.id);
-        localStorage.setItem('user', JSON.stringify(user));
+        var user = data;
+        sessionStorage.setItem('user', JSON.stringify(user));
         swal({
           title: "Welcome",
           text: "You have successfully logged in!",
           icon: "success",
           buttons: {
-            showConfirmButton: false,
+            Ok: true,
           }
         })
-        window.location.href = 'https://localhost:5001/MainAdmin';
-      } else {
-        swal("Login", "Email or password incorrect!", "warning")
+        // window.location.href = 'https://localhost:5001/MainAdmin';
+        this.Router.navigate(['/MainAdmin']);
       }
 
-    }, error => console.error(alert("Email or password incorrect")));
+    }, error => console.error(swal("Login", "Email or password incorrect!", "warning")));
   }
-
 }
