@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   private user: User;
+  private logueado: [];
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private Router: Router) {
     this.newUser();
@@ -28,16 +29,14 @@ export class LoginComponent {
   login() {
     this.http.post(this.baseUrl + 'api/User/login', this.user).subscribe((data) => {
       if (data) {
-        var user = data as User;
-        // console.log(user.id);
-        localStorage.setItem('user', JSON.stringify(user));
+        var user = data;
+        sessionStorage.setItem('user', JSON.stringify(user));
         swal({
           title: "Welcome",
           text: "You have successfully logged in!",
           icon: "success",
-          timer: 1000,
           buttons: {
-            showConfirmButton: false,
+            Ok: true,
           }
         })
         // window.location.href = 'https://localhost:5001/MainAdmin';
@@ -46,5 +45,4 @@ export class LoginComponent {
 
     }, error => console.error(swal("Login", "Email or password incorrect!", "warning")));
   }
-
 }

@@ -1,20 +1,22 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-
 import {BingoCard} from './bingocards.interface';
 import { BingoCardsNumbers } from './bingocardnumbers.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mainplayer',
   templateUrl: './mainplayer.component.html',
   styleUrls: ['./mainplayer.component.css']
 })
+
 export class MainplayerComponent {
   public cant : number; 
   public card : BingoCard; 
   public cardNumbers: BingoCardsNumbers; 
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) { 
+
+  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) { 
+    console.log(this._route.snapshot.paramMap.get('roomname'));
     this.cant = 0; 
     this.newCard();
   }

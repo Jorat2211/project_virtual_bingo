@@ -16,20 +16,25 @@ export class MainAdminComponent {
   private room: Room;
   private rooms: Room[];
   private user: User;
+  private logueado: [];
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.userLogueado();
     this.newRoom();
     this.refresh();
-    // console.log(this._route.snapshot.paramMap.get('name'));
   }
 
   userLogueado() {
-    var user = JSON.parse(localStorage.getItem('user'));
+    this.logueado = JSON.parse(sessionStorage.getItem('user'));
+    console.log(this.logueado['token']);
+    console.log(this.logueado['user']['id']);
+    console.log(this.logueado['user']['email']);
+    console.log(this.logueado['user']['password']);
+
     this.user = {
-      id: user['id'],
-      email: user['email'],
-      password: user['password'],
+      id: this.logueado['user']['id'],
+      email: this.logueado['user']['email'],
+      password: this.logueado['user']['password'],
     }
   }
 
@@ -43,26 +48,38 @@ export class MainAdminComponent {
   }
 
   refresh() {
-    this.http.get<Room[]>(this.baseUrl + 'api/MainAdmin/' + this.user.id).subscribe(result => {
+    this.http.get<Room[]>(this.baseUrl + 'api/MainAdmin/' + this.user.id, this.headers()).subscribe(result => {
       this.rooms = result;
     }, error => console.error(error));
   }
 
   newURL() {
     var name = this.room.name.toLowerCase().trim();
-    var url = this.baseUrl + 'Room/' + name;
-    this.http.post<Room>(this.baseUrl + 'api/MainAdmin', {
-      name: name,
-      url: url,
-      usersid: this.user.id,
+    if (name != "") {
+      var url = this.baseUrl + 'Mainplayer/' + name;
+      this.http.post<Room>(this.baseUrl + 'api/MainAdmin', {
+        name: name,
+        url: url,
+        usersid: this.user.id,
 
-    }).subscribe(result => {
-      if (result) {
-        this.room.url = url;
-        swal("Good job!", "URL generated", "success");
-      }
-      this.refresh();
-      this.room.name = "";
-    }, error => console.error(error));
+      }, this.headers()).subscribe(result => {
+        if (result) {
+          this.room.url = url;
+          swal("Good job!", "URL generated", "success");
+        }
+        this.refresh();
+        this.room.name = "";
+      }, error => console.error(error));
+    }
+    else {
+      swal("Create Room", "Name cannot be empty!", "warning")
+    }
+  }
+
+  private headers() {
+    this.logueado = JSON.parse(sessionStorage.getItem('user'));
+    return {
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${this.logueado['token']}` }
+    };
   }
 }
