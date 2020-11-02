@@ -14,24 +14,43 @@ export class MainplayerComponent {
   public cant : number; 
   public card : BingoCard; 
   public cardNumbers: BingoCardsNumbers; 
+
+  private roomsId = 6; 
+  private maxNumberCard = 0; 
+
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) { 
     this.cant = 0; 
     this.newCard();
+    this.getCardsMax();
   }
+
+
 
 //C:\Web2\practicabd\angular\Animals\ClientApp\src\app\paperboard
   createCards(){
+    this.getCardsMax(); 
+    let contador = this.maxNumberCard; 
     for (let i = 0; i < this.cant; i++) {
-      this.saveBingoCards(); 
+      this.saveBingoCards(contador); 
       this.newCard(); 
+      contador++; 
     }
-
+    this.getCardsMax(); 
+    this.saveCardIdInSession(this.cant); 
+    alert("Se le los cartones"); 
   }
 
+  getCardsMax(){
+      this.http.get<number>(this.baseUrl + 'api/Bingocards/max/'+this.roomsId).subscribe(result => {
+        this.maxNumberCard = result+1; 
+      }, error => console.error(error));
+  }
 
 newCard(){
   this.card = {
     id : 0,
+    isPlaying: false,
+    numberCard: 0,
     rooms_id : 6//Este id es default, debe cambiarse
   }
 }
@@ -46,7 +65,7 @@ newCardNumbers(){
   }
 }
 
-saveBingoCards(){
+saveBingoCards(contador){
   if(this.card.id > 0){
     //update
     this.http.put<BingoCard>(this.baseUrl +'api/Bingocards'+this.card.id, this.card).subscribe(result=>{
@@ -55,8 +74,10 @@ saveBingoCards(){
   }
 
   //Insert
+
   this.http.post<BingoCard> (this.baseUrl + 'api/Bingocards', {
-   RoomsId : this.card.rooms_id
+   RoomsId : this.card.rooms_id,
+   NumberCard: contador
   }).subscribe(result => {
     this.newCardNumbers(); 
     result = result as BingoCard; 
@@ -65,6 +86,9 @@ saveBingoCards(){
   }, error => console.error(error));
 }
 
+saveCardIdInSession(cantidad: number){
+  sessionStorage.setItem("cantidad",JSON.stringify(cantidad)); 
+}
 
 generateNumbers(){
   let list = [];

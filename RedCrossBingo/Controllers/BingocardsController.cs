@@ -43,16 +43,78 @@ namespace RedCrossBingo.Controller
             return CreatedAtAction("GetBingoCards", new { id = b.Id }, b);
         }
 
-        [HttpGet("{roomsId}")]
+        [HttpGet("allcards/{roomsId}")]
         public async Task<ActionResult<IEnumerable<BingoCards>>> GetCards(long roomsId)
         {
-            var cards = await _context.BingoCards.Where(c=> c.RoomsId == roomsId).Include(c=> c.BingoCardNumbers).ToListAsync(); 
+            var cards = await _context.BingoCards.Where(c=> c.RoomsId == roomsId && c.IsPlaying == false).Include(c=> c.BingoCardNumbers).ToListAsync(); 
             if (cards == null)
             {
                 return NotFound();
             }
             return cards;
         }
+
+          [HttpGet("{roomsId}")]
+        public async Task<ActionResult<BingoCards>> GetCard(long roomsId)
+        {
+            var card = await _context.BingoCards.Where(c=> c.RoomsId == roomsId && c.IsPlaying == false).Include(c=> c.BingoCardNumbers).FirstAsync(); 
+            if (card == null)
+            {
+                return NotFound();
+            }
+            card.IsPlaying = true; 
+          var e =   PutBingo(card.Id, card); 
+          System.Console.WriteLine("Actualizacion card " +e);
+            return card;
+        }
+
+        [HttpGet("max/{roomsId}")]
+        public async Task<int> GetNumberCardMax(long roomsId)
+        {
+             var cards = await _context.BingoCards.Where(c=> c.RoomsId == roomsId).ToListAsync(); 
+            if(cards.Count > 0){
+                int numberCardMax = cards.Max(c => c.NumberCard); 
+                return numberCardMax;
+            }
+            return 0; 
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutBingo(long id, BingoCards card)
+        {
+            
+            if (id != card.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(card).State = EntityState.Modified;
+
+            try
+            {
+                
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+               if (!cardExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        private bool cardExists(long id)
+        {
+            return _context.BingoCards.Any(e => e.Id == id);
+        }
+
 
     }
 }

@@ -5,7 +5,6 @@ import {BingoCardsNumbers} from './bingocardnumbers.interface';
 import {BingoCard} from './bingocards.interface';
 import { BingoNumber } from './bingonumbers.interface';
 import {SignalServiceService} from './../services/signal-service.service'; 
-import { empty } from 'rxjs';
 
 
 @Component({
@@ -25,16 +24,29 @@ export class GameComponent  implements OnInit {
 
 
   public nReceive : number = 0; 
+  public cantiCards : number = 0; 
+  public  listIdCards :number []; 
+
 
   constructor( private service : SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
-    this.getCards(); 
+    //this.getCards(); 
+    this.cards = []; 
+    this.listIdCards = []; 
     this.newCardNumber();
     this.numberChooseTrue = [];
     this.paintNumbers(); 
     this.getNumbersTrue();
+    this.getCantCards();
    }
 
-  
+  getCantCards(){
+    this.cantiCards = JSON.parse(sessionStorage.getItem("cantidad")); 
+    for (let i = 0; i <this.cantiCards; i++) {
+        this.getCard(); 
+    }
+    console.log("IDs en lista: " +this.listIdCards); 
+    this.saveIdCardInSessionStorage(); 
+  }
 
    ngOnInit(): void {
     this.service.eNotificarNumber.subscribe((numberReceive) =>{
@@ -103,13 +115,25 @@ updateCardNumber(number : BingoCardsNumbers){
    }
  }  
 
+ getCard(){
+  this.http.get<BingoCard>(this.baseUrl + 'api/Bingocards/'+this.roomsId).subscribe(result => {
+    this.cards.push(result);  
+    this.listIdCards.push(result.id); 
+  }, error => console.error(error));
+  console.log("Resultado: " + this.listIdCards); 
 
-getCards(){
-  console.log(this.baseUrl + 'api/Bingocards/'+this.roomsId);
-    this.http.get<BingoCard[]>(this.baseUrl + 'api/Bingocards/'+this.roomsId).subscribe(result => {
-      this.cards = result; 
-    }, error => console.error(error));
-}
+ }
+
+ saveIdCardInSessionStorage(){
+    sessionStorage.setItem("listCards", JSON.stringify(this.listIdCards)); 
+ }
+
+// getCards(){
+//   console.log(this.baseUrl + 'api/Bingocards/'+this.roomsId);
+//     this.http.get<BingoCard[]>(this.baseUrl + 'api/Bingocards/'+this.roomsId).subscribe(result => {
+//      // this.cards = result; 
+//     }, error => console.error(error));
+// }
 
 newBingoNumber(){
   this.bingoNumber = {
