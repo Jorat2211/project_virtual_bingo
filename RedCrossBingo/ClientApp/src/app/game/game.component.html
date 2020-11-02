@@ -9,6 +9,8 @@
 <body>
     
     <div class="newNumber" >
+        <img id="imageNumber" class="rounded-circle profile-img-card"
+        src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" /><br>
          <h1  >{{nReceive}}</h1>            
     </div> 
 
@@ -18,6 +20,7 @@
     <div  id="cardBingoPri" class="card" > 
            <img id="imagenT" class="rounded-circle profile-img-card"
            src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" /><br>
+           <h5>Numbers played</h5>
            <div id="cardNumberT"  *ngFor= "let n of numberChooseTrue" >        
                  <h6 id="numberT" class="card-body"><b> {{n}}</b></h6>            
        </div>

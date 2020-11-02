@@ -8,20 +8,24 @@
 </head>
 <body>
     <div class="newNumber" >
+        <img id="imagTom" class="rounded-circle profile-img-card"
+        src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" /><br>
         <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()" *ngIf="showBingoTom">Generate tombola</button>
          <h1  >{{bingoNumber.number}}</h1>     
         <button mat-raised-button class="btn btn-info" (click)="getNumber()" *ngIf="showGenerateNumber">New number</button>      
     </div>  
 
-    <div class="newNumber" style="margin-top: 50%;">
-        <h1  >Users playing</h1>     
-
-         <h1 >{{usersPlaying}}</h1>     
+    <div class="usersPla" >
+        <img id="imag" class="rounded-circle profile-img-card"
+        src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" /><br>
+        <h5  >Users playing</h5>     
+         <h5 >{{usersPlaying}}</h5>     
     </div> 
 
     <div  id="cardBingoPri" class="card" > 
            <img id="imagenT" class="rounded-circle profile-img-card"
            src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" /><br>
+           <h5>Numbers played</h5>
            <div id="cardNumberT"  *ngFor= "let n of numberChooseTrue" >        
                  <h6 id="numberT" class="card-body"><b> {{n}}</b></h6>            
        </div>

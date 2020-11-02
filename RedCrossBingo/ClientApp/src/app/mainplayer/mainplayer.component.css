@@ -1,0 +1,30 @@
+#container{
+    position: absolute;
+    color: rgb(217, 79, 245);
+    top: 28%; 
+    text-align: center;  
+    padding: 25px;
+    box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
+    border-radius: 10px 0px 20px 0px;
+    background-color: black;
+    height: 270px;
+    width: 670px;
+    opacity: 85%;
+    left: 25%;
+}
+
+#imagenT{
+    text-align: center;
+    width: 40%;
+    height: 45%;
+}
+
+input[type="number"]{
+    background-color: rgb(65, 63, 63);
+    color: white;
+    text-align: center;
+}
+
+h2{
+    color: rgba(255, 255, 255, 0.884);
+}
