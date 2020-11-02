@@ -25,23 +25,14 @@ export class MainplayerComponent {
       this.saveBingoCards(); 
       this.newCard(); 
     }
-   // this.sendConection(); 
 
   }
 
-  // sendConection(){
-  //    //Insert
-  //   let contador = 1; 
-  // this.http.put<Object> (this.baseUrl + 'api/Bingocards/'+contador, {
-  //  }).subscribe(result => {
-  //    console.log("result send: "+result);
-  //  }, error => console.error(error));
-  // }
 
 newCard(){
   this.card = {
     id : 0,
-    rooms_id : 2 //Este id es default, debe cambiarse
+    rooms_id : 6//Este id es default, debe cambiarse
   }
 }
 
@@ -49,9 +40,9 @@ newCard(){
 newCardNumbers(){
   this.cardNumbers = {
     id : 0,
-    BingoCardsId : 0,
+    bingoCardsId : 0,
     number: 0,
-    IsSelected: false
+    isSelected: false
   }
 }
 
@@ -69,7 +60,7 @@ saveBingoCards(){
   }).subscribe(result => {
     this.newCardNumbers(); 
     result = result as BingoCard; 
-    this.cardNumbers.BingoCardsId = result.id; 
+    this.cardNumbers.bingoCardsId = result.id; 
     this.generateNumbers();
   }, error => console.error(error));
 }
@@ -79,7 +70,7 @@ generateNumbers(){
   let list = [];
   let num = this.getRamdon();
   for(let i = 0; i < 25; i++){
-      while(!this.isSame(num, list)){
+      while(list.includes(num)){
           num = this.getRamdon();
       }
       list.push(num); 
@@ -95,14 +86,7 @@ getRamdon(){
   return  Math.floor(Math.random()*(max-min+1)+min);
 }
 
-isSame(num,  list: number[]){
- for (let i = 0; i< list.length; i++) {
-    if(num == list[i]){
-      return false; 
-    }
- }
-return true;
-}
+
 
 
 saveBingoCardsNumbers(){
@@ -116,8 +100,8 @@ saveBingoCardsNumbers(){
   //Insert
   this.http.post<BingoCardsNumbers> (this.baseUrl + 'api/Bingocardnumbers', {
     number: this.cardNumbers.number,
-    IsSelected : this.cardNumbers.IsSelected,
-    BingoCardsId : this.cardNumbers.BingoCardsId
+    isSelected : this.cardNumbers.isSelected,
+    bingoCardsId : this.cardNumbers.bingoCardsId
   }).subscribe(result => {
   }, error => console.error(error));
 }

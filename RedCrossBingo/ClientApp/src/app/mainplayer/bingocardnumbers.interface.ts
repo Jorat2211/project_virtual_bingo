@@ -1,7 +1,7 @@
 
 export interface BingoCardsNumbers{
     id : number; 
-    BingoCardsId : number;
+    bingoCardsId : number;
     number: number;
-    IsSelected : boolean;
+    isSelected : boolean;
 }

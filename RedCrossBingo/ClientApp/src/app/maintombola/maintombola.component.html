@@ -8,12 +8,12 @@
 </head>
 <body>
     <div class="newNumber" >
-        <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()">Generate tombola</button>
+        <button mat-raised-button class="btn btn-info" (click)="generateNumberTombola()" *ngIf="showBingoTom">Generate tombola</button>
          <h1  >{{bingoNumber.number}}</h1>     
-        <button mat-raised-button class="btn btn-info" (click)="getNumber()">New number</button>      
-    </div> 
+        <button mat-raised-button class="btn btn-info" (click)="getNumber()" *ngIf="showGenerateNumber">New number</button>      
+    </div>  
 
-    <div class="newNumber" style="margin-top: 10%;">
+    <div class="newNumber" style="margin-top: 50%;">
         <h1  >Users playing</h1>     
 
          <h1 >{{usersPlaying}}</h1>     

@@ -5,6 +5,7 @@ import {BingoCardsNumbers} from './bingocardnumbers.interface';
 import {BingoCard} from './bingocards.interface';
 import { BingoNumber } from './bingonumbers.interface';
 import {SignalServiceService} from './../services/signal-service.service'; 
+import { empty } from 'rxjs';
 
 
 @Component({
@@ -14,16 +15,16 @@ import {SignalServiceService} from './../services/signal-service.service';
 })
 
 export class GameComponent  implements OnInit {
-  public roomsId = 2; 
+  public roomsId = 6; 
 
   public bingoNumber : BingoNumber; //Number bingo
   public cards : Array<BingoCard>;  //Cards in room
   public numbers : Array<BingoCardsNumbers>;  // numbers for each cards
   public card : BingoCard; //card bingo 
-  private numberChooseTrue: number[];
+  public numberChooseTrue: number[];
 
 
-  public nReceive : number; 
+  public nReceive : number = 0; 
 
   constructor( private service : SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.getCards(); 
@@ -33,46 +34,45 @@ export class GameComponent  implements OnInit {
     this.getNumbersTrue();
    }
 
+  
+
    ngOnInit(): void {
     this.service.eNotificarNumber.subscribe((numberReceive) =>{
       var r  = numberReceive as BingoNumber; 
         this.numberChooseTrue.push(r.number); 
         this.nReceive = r.number; 
-     //  this.numberReceives.push (numberReceive); 
-       //Search number for each card and update in the db
        this.updateNumberIsSelected(r.number); 
-
-      // this.getCards();
       console.log(this.cards); 
      });
   }
 
+
+
+
 updateNumberIsSelected(number: Number){
   this.cards.forEach(card => {
-    let index  =0; 
-    let lista= card.bingoCardNumbers; 
     card.bingoCardNumbers.forEach(numberCard=> {
 
       if(number == numberCard.number){
+        console.log("Number before update: " + numberCard); 
+        numberCard.isSelected = true; 
         var r = new BingoCardsNumbers().convertToBingoCardsNumbers(numberCard); 
+        console.log("Number after update: " + numberCard); 
         r.isSelected = true; 
-      var result = this.updateCardNumber(r);
-      console.log(result); 
-//      lista.splice(index,1, result);
-        //Vaya actualizar el carton, hub y de ahi al cliente 
+        this.updateCardNumber(r);
       }
-      index++; 
     });
-
   });
 
 }
+
 updateCardNumber(number : BingoCardsNumbers){
   let BingN : BingoCardsNumbers = number; 
   if(number.id > 0){
     //update
     this.http.put<BingoCardsNumbers>(this.baseUrl +'api/Bingocardnumbers/'+number.id, number).subscribe(result=>{
       result = result as BingoCardsNumbers; 
+      console.log("Result numero: "+result); 
       BingN = result; 
     }, error=>console.error(error));
   }
@@ -120,16 +120,6 @@ newBingoNumber(){
   }
 }
 
-save(){
-  //Insert
-     this.http.post<BingoNumber> (this.baseUrl + 'api/Bingonumber', {
-      number : this.bingoNumber.number,
-      IsChosen : this.bingoNumber.isChosen,
-      RoomsId : this.bingoNumber.roomsId
-    }).subscribe(result => { 
-      console.log(result); 
-  }, error => console.error(error));
-}
 
 getNumbersTrue(){
   this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/' + 'true/').subscribe(result => {

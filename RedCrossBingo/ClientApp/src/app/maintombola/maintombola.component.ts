@@ -20,10 +20,15 @@ export class MaintombolaComponent implements OnInit{
   private numberChooseTrue: number[];
   private usersPlaying = 0; 
 
+
+  //Form 
+  private showBingoTom : boolean; 
+  private showGenerateNumber : boolean; 
   constructor(private service : SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.numberChooseTrue = [];
     this.getNumbersTrue();
     this.newBingoNumber();
+    this.existRoom();
    }
 
 
@@ -31,8 +36,7 @@ export class MaintombolaComponent implements OnInit{
     this.service.eNotificarNumber.subscribe((numberReceive) =>{
       var r  = numberReceive as BingoNumber; 
       this.numberChooseTrue.push(r.number); 
-     //  this.numberReceives.push (numberReceive); 
-       //Search number for each card and update in the db
+    
      });
 
      this.service.eNoficUsers.subscribe((result)=>{
@@ -40,12 +44,13 @@ export class MaintombolaComponent implements OnInit{
      });
   }
 
+
   newBingoNumber(){
     this.bingoNumber = {
     id:0,
     number: 0,
     isChosen:false,
-    roomsId:2//Este id es default, debe cambiarse
+    roomsId:6//Este id es default, debe cambiarse
     }
   }
 
@@ -56,6 +61,8 @@ export class MaintombolaComponent implements OnInit{
       this.bingoNumber.number=i; 
       this.save();   
     }
+    this.existRoom(); 
+    this.bingoNumber.number = 0; 
   }
   
   save(){
@@ -83,12 +90,11 @@ export class MaintombolaComponent implements OnInit{
     }
     if(!this.numberChooseTrue.includes(numberRandom)){
        //this.numberChooseTrue.push(numberRandom);
-       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '2/' + numberRandom).subscribe(result => {
+       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '6/' + numberRandom).subscribe(result => {
          var bingoNumberResult = result as BingoNumber;
          bingoNumberResult.isChosen=true;
          this.updateNumber(bingoNumberResult);
          this.bingoNumber.number = bingoNumberResult.number;
-         console.log(this.bingoNumber);
        }, error => console.error(error));
     }
   }
@@ -101,7 +107,6 @@ export class MaintombolaComponent implements OnInit{
     }, error => console.error(error));
   
   }
-  
   
     newRandom() {
       const min = 1;
@@ -118,5 +123,22 @@ export class MaintombolaComponent implements OnInit{
       return;
     }
   }
+
+  existRoom(){
+    this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/room/' + 6).subscribe(result => {
+       console.log(result.length);
+       console.log(result);
+
+       if(result.length>=1){
+         this.showBingoTom= false;
+         this.showGenerateNumber=true;
+       }else{       
+         this.showBingoTom= true;
+         this.showGenerateNumber= false;
+       }
+     }, error => console.error(error));
+     
+   }
+  
  
 }

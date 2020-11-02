@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HubConnectionBuilder, HubConnection} from '@aspnet/signalr'; 
 import { BingoNumber} from './../game/bingonumbers.interface'; 
+import {BingoCardsNumbers} from './../game/bingocardnumbers.interface'; 
 
 
 @Injectable({
@@ -23,7 +24,6 @@ export class SignalServiceService {
     });
    
      this.hubConnection.on("SendNumbersPlayers",(msj)=>{
-       
       this.eNoficUsers.emit(msj); 
      });
     this.hubConnection.start().catch(err=>{
