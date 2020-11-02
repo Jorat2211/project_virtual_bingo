@@ -34,7 +34,7 @@ namespace RedCrossBingo.Controller
             if (user != null)
             {
                 var tokenString = GenerateJWTToken(user);
-                return response = Ok(new 
+                return response = Ok(new
                 {
                     token = tokenString,
                     user = user
@@ -43,7 +43,7 @@ namespace RedCrossBingo.Controller
             }
             return response;
         }
-          string GenerateJWTToken(Users user)
+        string GenerateJWTToken(Users user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

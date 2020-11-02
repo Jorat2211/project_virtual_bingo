@@ -30,7 +30,7 @@ export class MainAdminComponent {
     console.log(this.logueado['user']['id']);
     console.log(this.logueado['user']['email']);
     console.log(this.logueado['user']['password']);
-    
+
 
     this.user = {
       id: this.logueado['user']['id'],
@@ -56,25 +56,48 @@ export class MainAdminComponent {
 
   newURL() {
     var name = this.room.name.toLowerCase().trim();
-    if (name != "") {
-      var url = this.baseUrl + 'Mainplayer/' + name;
-      this.http.post<Room>(this.baseUrl + 'api/MainAdmin', {
-        name: name,
-        url: url,
-        usersid: this.user.id,
-
-      }, this.headers()).subscribe(result => {
-        if (result) {
-          this.room.url = url;
-          swal("Good job!", "URL generated", "success");
+    this.http.get<Room>(this.baseUrl + 'api/MainAdmin/' + this.user.id + "/" + name, this.headers()).subscribe(result => {
+      if (name != "") {
+        if (name === result.name) {
+          this.room.name = "";
+          swal("Create Room", "Name already exists!", "warning")
         }
-        this.refresh();
-        this.room.name = "";
-      }, error => console.error(error));
-    }
-    else {
-      swal("Create Room", "Name cannot be empty!", "warning")
-    }
+        else
+        {
+          var url = this.baseUrl + 'MainPlayer/' + name;
+          this.http.post<Room>(this.baseUrl + 'api/MainAdmin', {
+            name: name,
+            url: url,
+            usersid: this.user.id,
+  
+          }, this.headers()).subscribe(result => {
+            if (result) {
+              this.room.url = url;
+              swal("Good job!", "URL generated", "success");
+            }
+            this.refresh();
+            this.room.name = "";
+          }, error => console.error(error));
+        }
+      }
+      else {
+        swal("Create Room", "Name cannot be empty!", "warning")
+      }
+    }, error => console.error(error));
+
+  }
+
+  deleteRoom(room: Room) {
+    this.http.delete(this.baseUrl + 'api/MainAdmin/' + room.id, this.headers()).subscribe(result => {
+      if (result) {
+        swal("Good job!", "Room deleted successfully!", "success");
+      }
+      this.refresh();
+    }, error => console.error(error));
+  }
+
+  openRoom(room: Room) {
+    window.open(room.url); // cambiar mesa
   }
 
   private headers() {
