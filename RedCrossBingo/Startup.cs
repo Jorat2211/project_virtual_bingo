@@ -7,7 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RedCrossBingo.Models;
-using RedCrossBingo.Hubs; 
+using RedCrossBingo.Hubs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
 
 namespace RedCrossBingo
 {
@@ -23,11 +27,13 @@ namespace RedCrossBingo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-             services.AddCors(opt =>{
-                opt.AddPolicy("all", builder =>{
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("all", builder =>
+                {
                     builder.AllowAnyHeader()
                     .AllowAnyMethod()
-                    .SetIsOriginAllowed((Host)=> true)
+                    .SetIsOriginAllowed((Host) => true)
                     .AllowCredentials()
                     .WithOrigins("https://localhost:5001");
                 });
@@ -44,6 +50,27 @@ namespace RedCrossBingo
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            // Jwt
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
+                    ClockSkew = TimeSpan.Zero
+                };
+
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +89,7 @@ namespace RedCrossBingo
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCors("all"); 
+            app.UseCors("all");
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -70,11 +97,16 @@ namespace RedCrossBingo
 
             app.UseRouting();
 
+            // Jwt
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<BingoHub>("/api/Bingonumber/-1"); 
              //endpoints.MapHub<BingoHub>("/api/Bingonumber"); 
 
+                endpoints.MapHub<BingoHub>("/api/Bingonumber/-1");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
