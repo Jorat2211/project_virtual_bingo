@@ -17,7 +17,7 @@ import { Room } from '../mainadmin/mainadmin.interface';
 })
 
 export class GameComponent  implements OnInit{
-  public roomsId = 10; 
+  public roomsId = 0; 
 
   public bingoNumber: BingoNumber; //Number bingo
   public cards: Array<BingoCard>;  //Cards in room
@@ -35,10 +35,10 @@ export class GameComponent  implements OnInit{
 
   constructor(private service: SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) {
     //this.getCards(); 
+    this.idRoom(); 
     this.cards = []; 
     this.newCardNumber();
     this.numberChooseTrue = [];
-    this.paintNumbers();
     this.getNumbersTrue();
     this.getCantCards();
   
@@ -128,9 +128,9 @@ updateCardNumber(number : BingoCardsNumbers){
       result = result as BingoCardsNumbers; 
       BingN = result; 
     }, error=>console.error(error));
-  
-    return BingN;
   }
+  return BingN;
+
 }
   newCardNumber() {
     this.bingoNumber = {
@@ -138,39 +138,14 @@ updateCardNumber(number : BingoCardsNumbers){
       number: 0,
       isChosen: false,
       roomsId: -1
-
     }
   }
 
-
-  //This method is only test, for to see numbers and cards
-  paintNumbers() {
-    if (this.cards) {
-      this.numbers = [];
-      this.cards.forEach(card => {
-        card.bingoCardNumbers.forEach(e => {
-          let num = new BingoCardsNumbers().convertToBingoCardsNumbers(e);
-          console.log(num);
-          this.numbers.push(num);
-        });
-      });
-   }
- }  
-
  getCard(id_card : number){
-   console.log("Mi id card: " + id_card ); 
   this.http.get<BingoCard>(this.baseUrl + 'api/Bingocards/'+id_card).subscribe(result => {
     this.cards.push(result); 
   }, error => console.error(error));
  }
-
-updateCardPlaying(id: number, card: BingoCard){
-  this.http.put<BingoCard>(this.baseUrl + 'api/Bingocards/playing'+id, card).subscribe(result => {
-   
-  }, error => console.error(error));
- }
-
-
 
 // getCards(){
 //   console.log(this.baseUrl + 'api/Bingocards/'+this.roomsId);

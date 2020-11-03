@@ -19,24 +19,24 @@ export class MaintombolaComponent implements OnInit {
   public cards: Array<BingoCard>;  //Cards in room
   public numbers: Array<BingoCardsNumbers>;  // numbers for each cards
   public card: BingoCard; //card bingo 
-  // public number : BingoCardsNumbers; 
+
+
   private numberChooseTrue: number[];
   private usersPlaying = 0;
   private logueado: [];
   private user: User;
-  private roomId: number;
-
+  private roomId: number = 0;
 
   //Form 
   private showBingoTom: boolean;
   private showGenerateNumber: boolean;
   constructor(private service: SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) {
+    this.idRoom();
     this.numberChooseTrue = [];
     this.getNumbersTrue();
     this.newBingoNumber();
     this.existRoom();
     this.userLogueado();
-    this.idRoom();
   }
 
 
@@ -91,21 +91,13 @@ export class MaintombolaComponent implements OnInit {
     }, error => console.error(error));
   }
 
-  verLista() {
-    this.numberChooseTrue = [];
-    this.getNumbersTrue();
-    // console.log(this.numberChooseTrue);
-  }
-
-
   getNumber() {
     var numberRandom = this.newRandom();
     while (this.numberChooseTrue.includes(numberRandom)) {
       numberRandom = this.newRandom();
     }
     if(!this.numberChooseTrue.includes(numberRandom)){
-       //this.numberChooseTrue.push(numberRandom);
-       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '10/' + numberRandom).subscribe(result => {
+       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' +this.roomId+'/' + numberRandom).subscribe(result => {
          var bingoNumberResult = result as BingoNumber;
          bingoNumberResult.isChosen=true;
          this.updateNumber(bingoNumberResult);
@@ -132,7 +124,6 @@ export class MaintombolaComponent implements OnInit {
 
   updateNumber(bingoNumber: BingoNumber) {
     if (bingoNumber.id > 0) {
-      //update
       this.http.put<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + bingoNumber.id, bingoNumber).subscribe(result => {
       }, error => console.error(error));
       return;
@@ -141,10 +132,8 @@ export class MaintombolaComponent implements OnInit {
 
  
   existRoom() {
-    this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/room/' + 6).subscribe(result => {
-      console.log(result.length);
-      console.log(result);
-
+    console.log("id sala; " + this.roomId); 
+    this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/room/' + this.roomId).subscribe(result => {
       if (result.length >= 1) {
         this.showBingoTom = false;
         this.showGenerateNumber = true;
@@ -158,6 +147,8 @@ export class MaintombolaComponent implements OnInit {
   idRoom() {
     this.http.get<Room>(this.baseUrl + 'api/Bingonumber/roomname/' + this._route.snapshot.paramMap.get('roomname'), this.headers()).subscribe(result => {
       this.roomId = Number(result);
+      console.log(this.roomId); 
+
     })
   }
 

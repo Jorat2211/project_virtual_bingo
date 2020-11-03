@@ -116,6 +116,7 @@ namespace RedCrossBingo.Controller
         {
             var roomName = new Rooms();
             var idRoom = await _context.Rooms.Where(x => x.Name == nameRoom).FirstAsync();
+            System.Console.WriteLine("ID SALA " + idRoom);
 
             if (idRoom != null)
             {
