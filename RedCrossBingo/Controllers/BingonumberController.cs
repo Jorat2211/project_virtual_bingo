@@ -34,13 +34,14 @@ namespace RedCrossBingo.Controller
         public async Task<ActionResult<IEnumerable<BingoNumbers>>> existRoom(int roomsId)
         {
             var infoTom = await _context.BingoNumbers.Where(r => r.RoomsId == roomsId).ToListAsync();
+            System.Console.WriteLine(infoTom);
             return infoTom;
         }
 
-        [HttpGet("{isChoose}")]
-        public async Task<ActionResult<IEnumerable<BingoNumbers>>> GetNumberTrue(bool isChoose)
+        [HttpGet("numbers/{isChoose}/{roomId}")]
+        public async Task<ActionResult<IEnumerable<BingoNumbers>>> GetNumberTrue(bool isChoose, long roomId)
         {
-            var info = await _context.BingoNumbers.Where(r => r.IsChosen == isChoose).ToListAsync();
+            var info = await _context.BingoNumbers.Where(r => r.IsChosen == isChoose && r.RoomsId == roomId).ToListAsync();
             return info;
         }
 
@@ -112,7 +113,6 @@ namespace RedCrossBingo.Controller
         {
             var roomName = new Rooms();
             var idRoom = await _context.Rooms.Where(x => x.Name == nameRoom).FirstAsync();
-            System.Console.WriteLine("ID SALA " + idRoom);
 
             if (idRoom != null)
             {

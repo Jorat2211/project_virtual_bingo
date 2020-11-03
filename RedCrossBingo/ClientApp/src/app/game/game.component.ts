@@ -31,7 +31,6 @@ export class GameComponent  implements OnInit{
 
   private roomId: number; //id rooms 
 
-
   constructor(private service: SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) {
     //this.getCards(); 
     this.idRoom(); 
@@ -39,10 +38,8 @@ export class GameComponent  implements OnInit{
     this.newCardNumber();
     this.numberChooseTrue = [];
     this.getNumbersTrue();
-    this.getCantCards();
     this.idRoom();
-
-  
+    this.getCantCards();
    }
 
   /**
@@ -50,15 +47,14 @@ export class GameComponent  implements OnInit{
    */ 
   getCantCards(){
     let ids= JSON.parse(sessionStorage.getItem("listCards")); 
-    if(ids.values){
-      let list = ids.values as number[]; 
+      let list =ids.values as [];
       for (let i = 0; i <list.length; i++) {
           this.getCard(list[i]); 
-      }
     }
   }
 
    ngOnInit(): void {
+
     this.service.eNotificarNumber.subscribe((numberReceive) =>{
       var r  = numberReceive as BingoNumber; 
         this.numberChooseTrue.push(r.number); 
@@ -197,11 +193,16 @@ updateCardNumber(number : BingoCardsNumbers){
  */
 
   getNumbersTrue() {
-    this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/' + 'true/').subscribe(result => {
+    this.http.get<Room>(this.baseUrl + 'api/Bingocards/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
+      this.roomId = Number(result);
+
+    this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/numbers/' + 'true/' +this.roomId).subscribe(result => {
       result.forEach(element => {
         this.numberChooseTrue.push(element.number);
       });
     }, error => console.error(error));
+  });
+
   }
 /**
  * get id room 
@@ -209,8 +210,7 @@ updateCardNumber(number : BingoCardsNumbers){
   idRoom() {
     this.http.get<Room>(this.baseUrl + 'api/Bingocards/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
       this.roomId = Number(result);
-      console.log(this.roomId);
-    })
+    });
   }
 
 }

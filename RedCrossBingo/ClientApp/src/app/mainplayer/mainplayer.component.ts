@@ -32,15 +32,14 @@ export class MainplayerComponent {
    * Create cards bingo
    */
   createCards(){
-    this.getCardsMax(); 
     let contador = this.maxNumberCard; 
     for (let i = 0; i < this.cant; i++) {
       this.saveBingoCards(contador); 
       this.newCard(); 
       contador++; 
     }
-    this.getCardsMax(); 
-    this.Router.navigate(['/Game/' + this._route.snapshot.paramMap.get('roomname')]); 
+    window.location.href = 'https://localhost:5001/Game/'+ this._route.snapshot.paramMap.get('roomname'); 
+  //  this.Router.navigate(['/Game/' + this._route.snapshot.paramMap.get('roomname')]); 
 }
   /**
    * Get max card
