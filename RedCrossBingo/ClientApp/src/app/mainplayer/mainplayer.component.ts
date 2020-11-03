@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {BingoCard} from './bingocards.interface';
 import { BingoCardsNumbers } from './bingocardnumbers.interface';
 import { ActivatedRoute } from '@angular/router';
+import { Room } from '../mainadmin/mainadmin.interface';
 
 @Component({
   selector: 'app-mainplayer',
@@ -16,13 +17,15 @@ export class MainplayerComponent {
   public cardNumbers: BingoCardsNumbers; 
 
   private roomsId = 6; 
-  private maxNumberCard = 0; 
+  private maxNumberCard = 0;
+  
+  private roomId: number;
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) { 
-    console.log(this._route.snapshot.paramMap.get('roomname'));
     this.cant = 0; 
     this.newCard();
     this.getCardsMax();
+    this.idRoom();
   }
 
 
@@ -52,7 +55,7 @@ newCard(){
     id : 0,
     isPlaying: false,
     numberCard: 0,
-    rooms_id : 6//Este id es default, debe cambiarse
+    rooms_id : this.roomId
   }
 }
 
@@ -129,6 +132,12 @@ saveBingoCardsNumbers(){
     bingoCardsId : this.cardNumbers.bingoCardsId
   }).subscribe(result => {
   }, error => console.error(error));
+}
+
+idRoom() {
+  this.http.get<Room>(this.baseUrl + 'api/Bingonumber/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
+    this.roomId = Number(result);
+  })
 }
 
 }

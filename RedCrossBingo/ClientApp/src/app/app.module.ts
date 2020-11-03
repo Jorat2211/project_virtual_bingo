@@ -52,8 +52,8 @@ export function tokenGetter() {
       { path: 'Login', component: LoginComponent },
       { path: 'MainAdmin', component: MainAdminComponent, canActivate: [AuthGuardGuard] },     
       { path: 'MainPlayer/:roomname', component: MainplayerComponent },
-      { path: 'Game', component: GameComponent },
-      { path: 'MainTombola', component: MaintombolaComponent },
+      { path: 'Game/:roomname', component: GameComponent },
+      { path: 'MainTombola/:roomname', component: MaintombolaComponent, canActivate: [AuthGuardGuard] },
 
     ]),
     
