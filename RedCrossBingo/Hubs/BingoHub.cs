@@ -17,6 +17,7 @@ namespace RedCrossBingo.Hubs
             return base.OnConnectedAsync();      
         }
 
+
         public override Task OnDisconnectedAsync(Exception exception)
         {
             contador--; 

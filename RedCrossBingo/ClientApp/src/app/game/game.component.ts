@@ -49,10 +49,14 @@ export class GameComponent  implements OnInit{
 
   getCantCards(){
     let ids= JSON.parse(sessionStorage.getItem("listCards")); 
-    let list = ids.values as number[]; 
-     for (let i = 0; i <list.length; i++) {
-         this.getCard(list[i]); 
-     }
+    if(ids){
+      let list = ids.values as number[]; 
+      for (let i = 0; i <list.length; i++) {
+          this.getCard(list[i]); 
+      }
+    }else{
+      alert(" You have not chosen a bingo card "); 
+    }
   }
 
    ngOnInit(): void {

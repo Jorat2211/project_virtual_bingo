@@ -18,11 +18,12 @@ export class MainplayerComponent {
   public card : BingoCard; 
   public cardNumbers: BingoCardsNumbers; 
 
-  private roomsId = 0; 
+  private roomsId : number; 
   private maxNumberCard = 0; 
   private roomId: number;
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute,  private Router: Router) { 
+    this.roomsId = 0; 
     this.idRoom();
     this.cant = 0; 
     this.newCard();
@@ -39,7 +40,6 @@ export class MainplayerComponent {
     }
     this.getCardsMax(); 
     this.saveCardIdInSession(this.cant); 
-    this.Router.navigate(['/Game']);
 
   }
 
@@ -147,7 +147,6 @@ saveIdCardInSessionStorage(id_card: number){
  }
 idRoom() {
   this.http.get<Room>(this.baseUrl + 'api/Bingonumber/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
-    console.log("Result : " + result); 
     this.roomId = Number(result);
   })
 }
