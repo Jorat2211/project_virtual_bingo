@@ -21,12 +21,10 @@ namespace  RedCrossBingo.Controller
             _hubContext = hubContext; 
         }
 
-
         [HttpPost]
         public IActionResult SendMensage(bool isWinner){
             string msj = Newtonsoft.Json.JsonConvert.SerializeObject(isWinner);
             _hubContext.Clients.All.SendAsync("SendMensageWinner", msj); 
-        
             return Ok(new {resp = "Send Winner "}); 
         }
 

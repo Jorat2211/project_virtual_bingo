@@ -13,22 +13,24 @@ import { Router } from '@angular/router';
 })
 
 export class MainplayerComponent {
-  public cant : number; 
-  public card : BingoCard; 
-  public cardNumbers: BingoCardsNumbers; 
+  public cant : number;  //numbers of card bingo chosen 
+  public card : BingoCard; //card bingo
+  public cardNumbers: BingoCardsNumbers; //number for card 
 
-  private roomsId : number; 
-  private maxNumberCard = 0; 
-  private roomId: number;
+  private maxNumberCard = 0; //max number of card
+  private roomId: number; //id room
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute,  private Router: Router) { 
-    this.roomsId = 0; 
+    this.roomId = 0; 
     this.idRoom();
     this.cant = 0; 
     this.newCard();
     this.getCardsMax();
   }
 
+  /** 
+   * Create cards bingo
+   */
   createCards(){
     this.getCardsMax(); 
     let contador = this.maxNumberCard; 
@@ -38,16 +40,19 @@ export class MainplayerComponent {
       contador++; 
     }
     this.getCardsMax(); 
-    this.saveCardIdInSession(this.cant); 
     this.Router.navigate(['/Game/' + this._route.snapshot.paramMap.get('roomname')]); 
-  }
-
+}
+  /**
+   * Get max card
+   */
   getCardsMax(){
-      this.http.get<number>(this.baseUrl + 'api/Bingocards/max/'+this.roomsId).subscribe(result => {
+      this.http.get<number>(this.baseUrl + 'api/Bingocards/max/'+this.roomId).subscribe(result => {
         this.maxNumberCard = result+1; 
       }, error => console.error(error));
   }
-
+/**
+ * Initialize card
+ */
 newCard(){
   this.card = {
     id : 0,
@@ -56,8 +61,9 @@ newCard(){
     rooms_id : this.roomId
   }
 }
-
-
+/**
+ * Number of card
+ */
 newCardNumbers(){
   this.cardNumbers = {
     id : 0,
@@ -67,29 +73,32 @@ newCardNumbers(){
   }
 }
 
+/**
+ * save new card in the db, and also update card
+ * @param contador number of card bingo
+ */
 saveBingoCards(contador){
   if(this.card.id > 0){
     this.http.put<BingoCard>(this.baseUrl +'api/Bingocards'+this.card.id, this.card).subscribe(result=>{
     }, error=>console.error(error));
     return;
   }
-  console.log("ID de sala: " + this.card.rooms_id);
+
   this.http.post<BingoCard> (this.baseUrl + 'api/Bingocards', {
-   RoomsId : this.card.rooms_id,
+   RoomsId : this.roomId,
    NumberCard: contador
   }).subscribe(result => {
     this.newCardNumbers(); 
     result = result as BingoCard; 
     this.cardNumbers.bingoCardsId = result.id; 
-    this.saveIdCardInSessionStorage(result.id); 
     this.generateNumbers();
+    this.saveIdCardInSessionStorage(result.id); 
   }, error => console.error(error));
 }
 
-saveCardIdInSession(cantidad: number){
-  sessionStorage.setItem("cantidad",JSON.stringify(cantidad)); 
-}
-
+/**
+ * Generate numbers for each card, numbers is ramdom
+ */
 generateNumbers(){
   let list = [];
   let num = this.getRamdon();
@@ -104,24 +113,25 @@ generateNumbers(){
   }
 }
 
+/**
+ * Get number of ramdon in range 1 to 75
+ */
 getRamdon(){
   const min=1;
   const max=75;
   return  Math.floor(Math.random()*(max-min+1)+min);
 }
 
-
-
-
+/**
+ * Save number in the db 
+ */
 saveBingoCardsNumbers(){
   if(this.cardNumbers.id > 0){
-    //update
     this.http.put<BingoCard>(this.baseUrl +'api/Bingocardnumbers'+this.cardNumbers.id, this.cardNumbers).subscribe(result=>{
     }, error=>console.error(error));
     return;
   }
 
-  //Insert
   this.http.post<BingoCardsNumbers> (this.baseUrl + 'api/Bingocardnumbers', {
     number: this.cardNumbers.number,
     isSelected : this.cardNumbers.isSelected,
@@ -130,6 +140,10 @@ saveBingoCardsNumbers(){
   }, error => console.error(error));
 }
 
+/**
+ * save id the card in the session storage for to use
+ * @param id_card id of card
+ */
 saveIdCardInSessionStorage(id_card: number){
   let values = JSON.parse(sessionStorage.getItem("listCards"));
   let data ; 
@@ -143,12 +157,14 @@ saveIdCardInSessionStorage(id_card: number){
 
      }
     sessionStorage.setItem("listCards", JSON.stringify(data)); 
- }
+}
+
+/**
+ * Get id of room
+ */
 idRoom() {
   this.http.get<Room>(this.baseUrl + 'api/Bingocardnumbers/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
-    console.log("Result : " + result); 
     this.roomId = Number(result);
-    console.log(this.roomId);
   })
 }
 
