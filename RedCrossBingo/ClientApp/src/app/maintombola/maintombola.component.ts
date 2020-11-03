@@ -132,7 +132,6 @@ export class MaintombolaComponent implements OnInit {
 
  
   existRoom() {
-    console.log("id sala; " + this.roomId); 
     this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/room/' + this.roomId).subscribe(result => {
       if (result.length >= 1) {
         this.showBingoTom = false;
@@ -147,8 +146,6 @@ export class MaintombolaComponent implements OnInit {
   idRoom() {
     this.http.get<Room>(this.baseUrl + 'api/Bingonumber/roomname/' + this._route.snapshot.paramMap.get('roomname'), this.headers()).subscribe(result => {
       this.roomId = Number(result);
-      console.log(this.roomId); 
-
     })
   }
 

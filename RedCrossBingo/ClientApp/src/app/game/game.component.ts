@@ -8,7 +8,6 @@ import {SignalServiceService} from './../services/signal-service.service';
 import swal from 'sweetalert';
 import { ActivatedRoute } from '@angular/router';
 import { Room } from '../mainadmin/mainadmin.interface';
-import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -49,13 +48,11 @@ export class GameComponent  implements OnInit{
 
   getCantCards(){
     let ids= JSON.parse(sessionStorage.getItem("listCards")); 
-    if(ids){
+    if(ids.values){
       let list = ids.values as number[]; 
       for (let i = 0; i <list.length; i++) {
           this.getCard(list[i]); 
       }
-    }else{
-      alert(" You have not chosen a bingo card "); 
     }
   }
 
@@ -67,8 +64,6 @@ export class GameComponent  implements OnInit{
        this.updateNumberIsSelected(r.number); 
        
      });
-
-
      this.service.isWinnerNitifica.subscribe((result)=>{
        if(!result && !this.IsWinner){
         let emojiSad  = "😔"; 
@@ -90,11 +85,9 @@ export class GameComponent  implements OnInit{
     });
   }
 
-
   updateNumberIsSelected(number: Number) {
     this.cards.forEach(card => {
       card.bingoCardNumbers.forEach(numberCard => {
-
       if(number == numberCard.number){
         numberCard.isSelected = true; 
         var r = new BingoCardsNumbers().convertToBingoCardsNumbers(numberCard); 
@@ -137,8 +130,8 @@ updateCardNumber(number : BingoCardsNumbers){
     }, error=>console.error(error));
   }
   return BingN;
-
 }
+
   newCardNumber() {
     this.bingoNumber = {
       id: -1,
@@ -146,7 +139,7 @@ updateCardNumber(number : BingoCardsNumbers){
       isChosen: false,
       roomsId: -1
     }
-  }
+}
 
  getCard(id_card : number){
   this.http.get<BingoCard>(this.baseUrl + 'api/Bingocards/'+id_card).subscribe(result => {
@@ -154,30 +147,12 @@ updateCardNumber(number : BingoCardsNumbers){
   }, error => console.error(error));
  }
 
-// getCards(){
-//   console.log(this.baseUrl + 'api/Bingocards/'+this.roomsId);
-//     this.http.get<BingoCard[]>(this.baseUrl + 'api/Bingocards/'+this.roomsId).subscribe(result => {
-//      // this.cards = result; 
-//     }, error => console.error(error));
-// }
-
-  newBingoNumber() {
-    this.bingoNumber = {
-      id: 0,
-      number: 0,
-      isChosen: false,
-      roomsId: 1 //Este id es default, debe cambiarse
-    }
-  }
-
-
   getNumbersTrue() {
     this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/' + 'true/').subscribe(result => {
       result.forEach(element => {
         this.numberChooseTrue.push(element.number);
       });
     }, error => console.error(error));
-
   }
 
   idRoom() {
