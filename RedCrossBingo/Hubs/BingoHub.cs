@@ -34,5 +34,8 @@ namespace RedCrossBingo.Hubs
             return Clients.All.SendAsync("SendNumbersPlayers", contador); 
         }
 
+        public Task SendMensageWinner(string isWinner){
+            return Clients.All.SendAsync(" SendMensageWinner", isWinner); 
+        }
     }
 }

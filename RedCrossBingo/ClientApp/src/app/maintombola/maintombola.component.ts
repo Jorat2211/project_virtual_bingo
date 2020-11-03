@@ -50,7 +50,7 @@ export class MaintombolaComponent implements OnInit{
     id:0,
     number: 0,
     isChosen:false,
-    roomsId:6//Este id es default, debe cambiarse
+    roomsId:10//Este id es default, debe cambiarse
     }
   }
 
@@ -90,7 +90,7 @@ export class MaintombolaComponent implements OnInit{
     }
     if(!this.numberChooseTrue.includes(numberRandom)){
        //this.numberChooseTrue.push(numberRandom);
-       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '6/' + numberRandom).subscribe(result => {
+       this.http.get<BingoNumber>(this.baseUrl + 'api/Bingonumber/' + '10/' + numberRandom).subscribe(result => {
          var bingoNumberResult = result as BingoNumber;
          bingoNumberResult.isChosen=true;
          this.updateNumber(bingoNumberResult);
@@ -125,7 +125,7 @@ export class MaintombolaComponent implements OnInit{
   }
 
   existRoom(){
-    this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/room/' + 6).subscribe(result => {
+    this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/room/' + 10).subscribe(result => {
        console.log(result.length);
        console.log(result);
 

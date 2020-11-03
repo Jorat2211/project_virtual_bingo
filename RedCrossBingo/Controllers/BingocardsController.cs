@@ -54,17 +54,15 @@ namespace RedCrossBingo.Controller
             return cards;
         }
 
-          [HttpGet("{roomsId}")]
-        public async Task<ActionResult<BingoCards>> GetCard(long roomsId)
+          [HttpGet("{id}")]
+        public async Task<ActionResult<BingoCards>> GetCard(long id)
         {
-            var card = await _context.BingoCards.Where(c=> c.RoomsId == roomsId && c.IsPlaying == false).Include(c=> c.BingoCardNumbers).FirstAsync(); 
+            System.Console.WriteLine("ID card: " +id);
+            var card = await _context.BingoCards.Where(c=> c.Id == id).Include(c=> c.BingoCardNumbers).FirstAsync(); 
             if (card == null)
             {
                 return NotFound();
             }
-            card.IsPlaying = true; 
-          var e =   PutBingo(card.Id, card); 
-          System.Console.WriteLine("Actualizacion card " +e);
             return card;
         }
 
@@ -79,10 +77,12 @@ namespace RedCrossBingo.Controller
             return 0; 
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("playing/{id}")]
         public async Task<IActionResult> PutBingo(long id, BingoCards card)
         {
-            
+            System.Console.WriteLine("ID carton " +id); 
+            System.Console.WriteLine("ID sala: " +card.RoomsId);   
+
             if (id != card.Id)
             {
                 return BadRequest();
