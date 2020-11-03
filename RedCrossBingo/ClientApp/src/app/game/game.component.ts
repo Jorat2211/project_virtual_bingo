@@ -4,14 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { BingoCardsNumbers } from './bingocardnumbers.interface';
 import { BingoCard } from './bingocards.interface';
 import { BingoNumber } from './bingonumbers.interface';
-<<<<<<< HEAD
 import {SignalServiceService} from './../services/signal-service.service'; 
 import swal from 'sweetalert';
-=======
-import { SignalServiceService } from './../services/signal-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Room } from '../mainadmin/mainadmin.interface';
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
 
 
 @Component({
@@ -20,13 +16,8 @@ import { Room } from '../mainadmin/mainadmin.interface';
   styleUrls: ['./game.component.css']
 })
 
-<<<<<<< HEAD
 export class GameComponent  implements OnInit{
   public roomsId = 10; 
-=======
-export class GameComponent implements OnInit {
-  public roomsId = 6;
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
 
   public bingoNumber: BingoNumber; //Number bingo
   public cards: Array<BingoCard>;  //Cards in room
@@ -35,33 +26,21 @@ export class GameComponent implements OnInit {
   public numberChooseTrue: number[];
 
 
-<<<<<<< HEAD
   public nReceive : number = 0; 
   public cantiCards : number = 0; 
   public IsWinner : boolean =  false; 
-=======
-  public nReceive: number = 0;
-  public cantiCards: number = 0;
-  public listIdCards: number[];
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
 
   private roomId: number;
 
 
   constructor(private service: SignalServiceService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) {
     //this.getCards(); 
-<<<<<<< HEAD
     this.cards = []; 
-=======
-    this.cards = [];
-    this.listIdCards = [];
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
     this.newCardNumber();
     this.numberChooseTrue = [];
     this.paintNumbers();
     this.getNumbersTrue();
     this.getCantCards();
-<<<<<<< HEAD
   
    }
 
@@ -81,28 +60,6 @@ export class GameComponent implements OnInit {
        this.updateNumberIsSelected(r.number); 
        
      });
-=======
-  }
-
-  getCantCards() {
-    this.cantiCards = JSON.parse(sessionStorage.getItem("cantidad"));
-    for (let i = 0; i < this.cantiCards; i++) {
-      this.getCard();
-    }
-    console.log("IDs en lista: " + this.listIdCards);
-    this.saveIdCardInSessionStorage();
-  }
-
-  ngOnInit(): void {
-    this.service.eNotificarNumber.subscribe((numberReceive) => {
-      var r = numberReceive as BingoNumber;
-      this.numberChooseTrue.push(r.number);
-      this.nReceive = r.number;
-      this.updateNumberIsSelected(r.number);
-      console.log(this.cards);
-    });
-  }
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
 
 
      this.service.isWinnerNitifica.subscribe((result)=>{
@@ -123,7 +80,7 @@ export class GameComponent implements OnInit {
       buttons: {
         Ok: true,
       }
-    })
+    });
   }
 
 
@@ -131,7 +88,6 @@ export class GameComponent implements OnInit {
     this.cards.forEach(card => {
       card.bingoCardNumbers.forEach(numberCard => {
 
-<<<<<<< HEAD
       if(number == numberCard.number){
         numberCard.isSelected = true; 
         var r = new BingoCardsNumbers().convertToBingoCardsNumbers(numberCard); 
@@ -142,22 +98,10 @@ export class GameComponent implements OnInit {
           this.sendMenssageWinner();
         } 
       }
-=======
-        if (number == numberCard.number) {
-          console.log("Number before update: " + numberCard);
-          numberCard.isSelected = true;
-          var r = new BingoCardsNumbers().convertToBingoCardsNumbers(numberCard);
-          console.log("Number after update: " + numberCard);
-          r.isSelected = true;
-          this.updateCardNumber(r);
-        }
-      });
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
     });
+  });
+}
 
-  }
-
-<<<<<<< HEAD
 sendMenssageWinner(){
   this.http.post<string> (this.baseUrl + 'api/SendMessage', {
     isWinner : !this.IsWinner
@@ -184,20 +128,10 @@ updateCardNumber(number : BingoCardsNumbers){
       result = result as BingoCardsNumbers; 
       BingN = result; 
     }, error=>console.error(error));
-=======
-  updateCardNumber(number: BingoCardsNumbers) {
-    let BingN: BingoCardsNumbers = number;
-    if (number.id > 0) {
-      //update
-      this.http.put<BingoCardsNumbers>(this.baseUrl + 'api/Bingocardnumbers/' + number.id, number).subscribe(result => {
-        result = result as BingoCardsNumbers;
-        console.log("Result numero: " + result);
-        BingN = result;
-      }, error => console.error(error));
-    }
+  
     return BingN;
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
   }
+}
   newCardNumber() {
     this.bingoNumber = {
       id: -1,
@@ -220,7 +154,6 @@ updateCardNumber(number : BingoCardsNumbers){
           this.numbers.push(num);
         });
       });
-<<<<<<< HEAD
    }
  }  
 
@@ -245,37 +178,6 @@ updateCardPlaying(id: number, card: BingoCard){
 //      // this.cards = result; 
 //     }, error => console.error(error));
 // }
-
-newBingoNumber(){
-  this.bingoNumber = {
-  id:0,
-  number: 0,
-  isChosen:false,
-  roomsId:9 //Este id es default, debe cambiarse
-=======
-    }
->>>>>>> edc8e8cee942c22e9dceb9acf04586346bac84ad
-  }
-
-  getCard() {
-    this.http.get<BingoCard>(this.baseUrl + 'api/Bingocards/' + this.roomsId).subscribe(result => {
-      this.cards.push(result);
-      this.listIdCards.push(result.id);
-    }, error => console.error(error));
-    console.log("Resultado: " + this.listIdCards);
-
-  }
-
-  saveIdCardInSessionStorage() {
-    sessionStorage.setItem("listCards", JSON.stringify(this.listIdCards));
-  }
-
-  // getCards(){
-  //   console.log(this.baseUrl + 'api/Bingocards/'+this.roomsId);
-  //     this.http.get<BingoCard[]>(this.baseUrl + 'api/Bingocards/'+this.roomsId).subscribe(result => {
-  //      // this.cards = result; 
-  //     }, error => console.error(error));
-  // }
 
   newBingoNumber() {
     this.bingoNumber = {
