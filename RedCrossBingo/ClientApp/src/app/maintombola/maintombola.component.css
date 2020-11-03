@@ -1,13 +1,14 @@
 .newNumber{
     position: absolute;
     color: rgb(217, 79, 245);
-    top: 20%; 
+    top: 17%; 
     text-align: center;  
     padding: 25px;
     box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
     border-radius: 10px 0px 20px 0px;
     background-color: black;
-    height: auto;
+    height: 250px;
+    width: 250px;
     opacity: 85%;
     left: 3%;
 
@@ -23,7 +24,7 @@
     text-align: left;
     box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
     border-radius: 10px 0px 20px 0px;
-    height: auto;
+    height: 50px;
     display: inline-block;
     user-select: none;
 
@@ -52,6 +53,17 @@
     width: 30%;
     height: 30%;
 }
+
+#imag{
+    width: 50%;
+    height: 30%;
+}
+
+#imagTom{
+    width: 60%;
+    height: 20%;
+}
+
 #number{
     color: rgb(97, 4, 66); 
 }
@@ -97,9 +109,32 @@ h6{
     height: 64vh;     
     left: 18%; 
     text-align: center;  
-    margin-top: 3vh;                   
+    margin-top: 17vh;                   
     padding: 25px ;
     box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
     border-radius: 10px 0px 20px 0px;
     background-color: rgba(0, 7, 1, 0.884);
+}
+
+h5{
+    color: rgba(255, 255, 255, 0.884);
+}
+
+h1{
+    color: rgba(255, 255, 255, 0.884);
+}
+
+.usersPla{
+    position: absolute;
+    color: rgb(217, 79, 245);
+    top: 58%; 
+    text-align: center;  
+    padding: 25px;
+    box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
+    border-radius: 10px 0px 20px 0px;
+    background-color: black;
+    height: 142px;
+    width: 250px;
+    opacity: 85%;
+    left: 3%;
 }

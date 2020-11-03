@@ -1,15 +1,15 @@
 .newNumber{
     position: absolute;
-    color: rgb(217, 79, 245);
-    top: 20%; 
+    top: 23%; 
     text-align: center;  
     padding: 25px;
     box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
     border-radius: 10px 0px 20px 0px;
     background-color: black;
-    height: auto;
+    height: 150px;
+    width: 130px;
     opacity: 85%;
-    left: 3%;
+    left: 10%;
 
   
 }
@@ -52,6 +52,12 @@
     width: 30%;
     height: 30%;
 }
+
+#imageNumber{
+    width: 70%;
+    height: 30%;
+}
+
 #number{
    
     color: rgb(97, 4, 66); 
@@ -104,4 +110,12 @@ h6{
     box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
     border-radius: 10px 0px 20px 0px;
     background-color: rgba(0, 7, 1, 0.884);
+}
+
+h1{
+    color: rgba(255, 255, 255, 0.884);
+}
+
+h5{
+    color: rgba(255, 255, 255, 0.884);
 }
