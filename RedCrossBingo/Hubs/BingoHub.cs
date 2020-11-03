@@ -12,7 +12,6 @@ namespace RedCrossBingo.Hubs
         public override Task OnConnectedAsync()
         {
             contador++; 
-            System.Console.WriteLine("Conectados: " + contador);
             SendNumbersPlayers(); 
             return base.OnConnectedAsync();      
         }
@@ -21,7 +20,6 @@ namespace RedCrossBingo.Hubs
         public override Task OnDisconnectedAsync(Exception exception)
         {
             contador--; 
-            System.Console.WriteLine("Conectados: " + contador);
             SendNumbersPlayers(); 
             return base.OnDisconnectedAsync(exception);
         }

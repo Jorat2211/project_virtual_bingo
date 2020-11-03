@@ -28,19 +28,9 @@ namespace RedCrossBingo.Controller
             return await _context.BingoCards.Include(c=> c.BingoCardNumbers ).ToListAsync();
         }
 
-        //  [HttpPut("{contador}")]
-        //  public   IActionResult SendNumbersPlayers(int contador ){
-        //      _hubContext.Clients.All.SendAsync("SendNumbersPlayers", contador); 
-        //     return Ok(new {resp = "Send number"}); 
-
-        // }
-
         [HttpPost]
         public async Task<ActionResult<BingoCards>> PostBingoCards(BingoCards b)
         {
-            
-            System.Console.WriteLine("ID carton sala " +b.RoomsId); 
-
             _context.BingoCards.Add(b);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetBingoCards", new { id = b.Id }, b);
@@ -57,10 +47,9 @@ namespace RedCrossBingo.Controller
             return cards;
         }
 
-          [HttpGet("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<BingoCards>> GetCard(long id)
         {
-            System.Console.WriteLine("ID card: " +id);
             var card = await _context.BingoCards.Where(c=> c.Id == id).Include(c=> c.BingoCardNumbers).FirstAsync(); 
             if (card == null)
             {
@@ -129,7 +118,5 @@ namespace RedCrossBingo.Controller
         {
             return _context.BingoCards.Any(e => e.Id == id);
         }
-
-
     }
 }

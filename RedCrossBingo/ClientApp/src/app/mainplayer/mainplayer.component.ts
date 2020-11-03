@@ -39,7 +39,7 @@ export class MainplayerComponent {
     this.getCardsMax(); 
     this.saveCardIdInSession(this.cant); 
     this.Router.navigate(['/Game/' + this._route.snapshot.paramMap.get('roomname')]); 
-  }
+}
 
   getCardsMax(){
       this.http.get<number>(this.baseUrl + 'api/Bingocards/max/'+this.roomId).subscribe(result => {
@@ -56,7 +56,6 @@ newCard(){
   }
 }
 
-
 newCardNumbers(){
   this.cardNumbers = {
     id : 0,
@@ -72,6 +71,7 @@ saveBingoCards(contador){
     }, error=>console.error(error));
     return;
   }
+
   this.http.post<BingoCard> (this.baseUrl + 'api/Bingocards', {
    RoomsId : this.roomId,
    NumberCard: contador
@@ -79,8 +79,8 @@ saveBingoCards(contador){
     this.newCardNumbers(); 
     result = result as BingoCard; 
     this.cardNumbers.bingoCardsId = result.id; 
-    this.saveIdCardInSessionStorage(result.id); 
     this.generateNumbers();
+    this.saveIdCardInSessionStorage(result.id); 
   }, error => console.error(error));
 }
 
@@ -113,13 +113,11 @@ getRamdon(){
 
 saveBingoCardsNumbers(){
   if(this.cardNumbers.id > 0){
-    //update
     this.http.put<BingoCard>(this.baseUrl +'api/Bingocardnumbers'+this.cardNumbers.id, this.cardNumbers).subscribe(result=>{
     }, error=>console.error(error));
     return;
   }
 
-  //Insert
   this.http.post<BingoCardsNumbers> (this.baseUrl + 'api/Bingocardnumbers', {
     number: this.cardNumbers.number,
     isSelected : this.cardNumbers.isSelected,
@@ -141,7 +139,8 @@ saveIdCardInSessionStorage(id_card: number){
 
      }
     sessionStorage.setItem("listCards", JSON.stringify(data)); 
- }
+}
+
 idRoom() {
   this.http.get<Room>(this.baseUrl + 'api/Bingocardnumbers/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
     this.roomId = Number(result);
