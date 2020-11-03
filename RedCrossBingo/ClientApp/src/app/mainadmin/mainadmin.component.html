@@ -100,8 +100,8 @@
                         class="fas fa-trash"></i></button>
                   </div>
                   <div *ngIf="room.confirmation">
-                    <button class="btn btn-danger mr-2" (click)="room.confirmation = false">Cancel</button>
                     <button class="btn btn-success" (click)="deleteRoom(room)">Confirm</button>
+                    <button class="btn btn-danger mr-2" (click)="room.confirmation = false">Cancel</button>
                   </div>
                 </td>
               </tr>
