@@ -24,7 +24,6 @@ namespace RedCrossBingo.Controller
             return await _context.BingoCardNumbers.ToListAsync();
         }
 
-
         [HttpPost]
         public async Task<ActionResult<BingoCardNumbers>> PostBingocardnumbers(BingoCardNumbers b)
         {
@@ -32,8 +31,7 @@ namespace RedCrossBingo.Controller
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetBingoCards", new { id = b.Id }, b);
         }
-
-        
+  
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNumero(long id, BingoCardNumbers number)
         {
@@ -48,8 +46,7 @@ namespace RedCrossBingo.Controller
             {
                 
                 await _context.SaveChangesAsync();
-                //mandar al hub 
-                   return CreatedAtAction("GetBingoCards", new { id = number.Id }, number);
+                return CreatedAtAction("GetBingoCards", new { id = number.Id }, number);
                
             }
             catch (DbUpdateConcurrencyException)
@@ -67,7 +64,6 @@ namespace RedCrossBingo.Controller
             //return NoContent();
         }
 
-        // http get
         [HttpGet("roomname/{nameRoom}")]
         public async Task<ActionResult<Rooms>> GetRooms(string nameRoom)
         {

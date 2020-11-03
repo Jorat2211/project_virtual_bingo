@@ -34,11 +34,8 @@ namespace RedCrossBingo.Controller
         public async Task<ActionResult<IEnumerable<BingoNumbers>>> existRoom(int roomsId)
         {
             var infoTom = await _context.BingoNumbers.Where(r => r.RoomsId == roomsId).ToListAsync();
-            //   var camtidad = infoTom.Count(); 
-            //   System.Console.WriteLine("Cantidad : " + camtidad);
             return infoTom;
         }
-
 
         [HttpGet("{isChoose}")]
         public async Task<ActionResult<IEnumerable<BingoNumbers>>> GetNumberTrue(bool isChoose)
@@ -59,7 +56,6 @@ namespace RedCrossBingo.Controller
         [HttpGet("{roomsId}/{number}")]
         public async Task<ActionResult<BingoNumbers>> GetNumber(long roomsId, long number)
         {
-
             var cards = await _context.BingoNumbers.ToListAsync();
             var bingo = new BingoNumbers();
 
@@ -91,7 +87,7 @@ namespace RedCrossBingo.Controller
             {
 
                 await _context.SaveChangesAsync();
-                //mandar al hub 
+                //Send to hub 
                 SendNumberbingo(bingo);
 
             }
