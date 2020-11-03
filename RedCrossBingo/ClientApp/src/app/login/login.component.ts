@@ -19,6 +19,9 @@ export class LoginComponent {
     this.newUser();
   }
 
+  /**
+   * Initialize a user
+   */
   newUser() {
     this.user = {
       id: -1,
@@ -27,6 +30,9 @@ export class LoginComponent {
     };
   }
 
+  /**
+   * Method in charge of the login
+   */
   login() {
     this.http.post(this.baseUrl + 'api/User/login', this.user).subscribe((data) => {
       if (data) {
