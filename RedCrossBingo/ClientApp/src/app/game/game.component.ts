@@ -7,6 +7,7 @@ import { BingoNumber } from './bingonumbers.interface';
 import { SignalServiceService } from './../services/signal-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Room } from '../mainadmin/mainadmin.interface';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class GameComponent implements OnInit {
     this.paintNumbers();
     this.getNumbersTrue();
     this.getCantCards();
+    this.idRoom();
   }
 
   getCantCards() {
@@ -159,8 +161,9 @@ export class GameComponent implements OnInit {
   }
 
   idRoom() {
-    this.http.get<Room>(this.baseUrl + 'api/Bingonumber/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
+    this.http.get<Room>(this.baseUrl + 'api/Bingocards/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
       this.roomId = Number(result);
+      console.log(this.roomId);
     })
   }
 
