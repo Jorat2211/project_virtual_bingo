@@ -1,3 +1,33 @@
 .btnGenerate {
     margin-left: 40%;
+    
+}
+table{
+         
+    top: 50%;
+    left: 50%; 
+    text-align: center;  
+    margin-top: 0.5vh;                      
+    margin-left: 15%;  
+   color: white;
+    box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
+    border-radius: 10px 0px 20px 0px;
+    opacity: 90%;
+    background-color: rgb(63, 148, 151);
+}
+
+.divRoom{
+    color: white;
+    box-shadow: -1px 1px 50px 10px rgb(0, 0, 0); 
+    border-radius: 10px 0px 20px 0px;
+    opacity: 90%;
+    background-color: rgb(63, 148, 151);
+}
+
+.search{
+    background-color:rgb(199, 248, 250);
+}
+
+h3{
+    text-align: center;
 }

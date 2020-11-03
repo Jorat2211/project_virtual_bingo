@@ -35,7 +35,7 @@ export class LoginComponent {
         swal({
           title: "Welcome",
           text: "You have successfully logged in!",
-          icon: "success",
+          icon: "success",         
           buttons: {
             Ok: true,
           }
