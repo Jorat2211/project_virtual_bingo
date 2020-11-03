@@ -172,10 +172,30 @@ updateCardNumber(number : BingoCardsNumbers){
     this.cards.push(result); 
   }, error => console.error(error));
  }
+
+
+// getCards(){
+//   console.log(this.baseUrl + 'api/Bingocards/'+this.roomsId);
+//     this.http.get<BingoCard[]>(this.baseUrl + 'api/Bingocards/'+this.roomsId).subscribe(result => {
+//      // this.cards = result; 
+//     }, error => console.error(error));
+// }
+
+  newBingoNumber() {
+    this.bingoNumber = {
+      id: 0,
+      number: 0,
+      isChosen: false,
+      roomsId: 1 //Este id es default, debe cambiarse
+    }
+  }
+
+
 /**
  * get numbers already 
  * played in the tombola
  */
+
   getNumbersTrue() {
     this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/' + 'true/').subscribe(result => {
       result.forEach(element => {
