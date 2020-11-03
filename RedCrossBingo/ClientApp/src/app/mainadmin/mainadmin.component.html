@@ -12,17 +12,17 @@
 
 <body>
   <header>
-    <nav class="navbar fixed-top navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar fixed-top navbar navbar-expand-lg navbar-bg-dark bg-dark" >
       <a class="navbar-brand" href="#">Navbar</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+        <ul class="navbar-nav mr-auto" >
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">Home <span class="sr-only" style="color: green;">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -44,7 +44,7 @@
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <input class="form-control mr-sm-2 search" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </div>
@@ -53,11 +53,11 @@
   <br>
   <br>
   <br>
-  <div class="container">
+  <div class="container" >
     <br>
     <div class="row justify-content-md-center justify-content-sm-center justify-content-center">
       <div class="col-md-5">
-        <div class="card">
+        <div class="card divRoom">
           <div class="card-body">
             <form>
               <h3>Create new room</h3>
@@ -75,8 +75,8 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="card">
-          <table class="table" *ngIf="rooms">
+        <!-- <div class="card" style="background-color:rgba(5, 5, 5, 0.808)"> -->
+          <table class="table " *ngIf="rooms" >
             <thead>
               <tr>
                 <th style="display:none;">Id</th>
@@ -107,7 +107,7 @@
               </tr>
             </tbody>
           </table>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
   </div>
