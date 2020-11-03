@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Room } from '../mainadmin/mainadmin.interface';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-mainplayer',
   templateUrl: './mainplayer.component.html',
@@ -39,8 +38,7 @@ export class MainplayerComponent {
     }
     this.getCardsMax(); 
     this.saveCardIdInSession(this.cant); 
-    this.Router.navigate(['/Game']);
-
+    this.Router.navigate(['/Game/' + this._route.snapshot.paramMap.get('roomname')]); 
   }
 
   getCardsMax(){
@@ -146,9 +144,14 @@ saveIdCardInSessionStorage(id_card: number){
     sessionStorage.setItem("listCards", JSON.stringify(data)); 
  }
 idRoom() {
+<<<<<<< HEAD
+  this.http.get<Room>(this.baseUrl + 'api/Bingocardnumbers/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
+=======
   this.http.get<Room>(this.baseUrl + 'api/Bingonumber/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
     console.log("Result : " + result); 
+>>>>>>> 1621a358d99708f10896d0ad841bd851de5e2ef5
     this.roomId = Number(result);
+    console.log(this.roomId);
   })
 }
 
