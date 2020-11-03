@@ -4,6 +4,8 @@ import {BingoCard} from './bingocards.interface';
 import { BingoCardsNumbers } from './bingocardnumbers.interface';
 import { ActivatedRoute } from '@angular/router';
 import { Room } from '../mainadmin/mainadmin.interface';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-mainplayer',
@@ -16,21 +18,17 @@ export class MainplayerComponent {
   public card : BingoCard; 
   public cardNumbers: BingoCardsNumbers; 
 
-  private roomsId = 6; 
-  private maxNumberCard = 0;
-  
+  private roomsId = 0; 
+  private maxNumberCard = 0; 
   private roomId: number;
 
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute) { 
+  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private _route: ActivatedRoute,  private Router: Router) { 
+    this.idRoom();
     this.cant = 0; 
     this.newCard();
     this.getCardsMax();
-    this.idRoom();
   }
 
-
-
-//C:\Web2\practicabd\angular\Animals\ClientApp\src\app\paperboard
   createCards(){
     this.getCardsMax(); 
     let contador = this.maxNumberCard; 
@@ -41,7 +39,8 @@ export class MainplayerComponent {
     }
     this.getCardsMax(); 
     this.saveCardIdInSession(this.cant); 
-    alert("Se le los cartones"); 
+    this.Router.navigate(['/Game']);
+
   }
 
   getCardsMax(){
@@ -71,14 +70,11 @@ newCardNumbers(){
 
 saveBingoCards(contador){
   if(this.card.id > 0){
-    //update
     this.http.put<BingoCard>(this.baseUrl +'api/Bingocards'+this.card.id, this.card).subscribe(result=>{
     }, error=>console.error(error));
     return;
   }
-
-  //Insert
-
+  console.log("ID de sala: " + this.card.rooms_id);
   this.http.post<BingoCard> (this.baseUrl + 'api/Bingocards', {
    RoomsId : this.card.rooms_id,
    NumberCard: contador
@@ -86,6 +82,7 @@ saveBingoCards(contador){
     this.newCardNumbers(); 
     result = result as BingoCard; 
     this.cardNumbers.bingoCardsId = result.id; 
+    this.saveIdCardInSessionStorage(result.id); 
     this.generateNumbers();
   }, error => console.error(error));
 }
@@ -134,8 +131,23 @@ saveBingoCardsNumbers(){
   }, error => console.error(error));
 }
 
+saveIdCardInSessionStorage(id_card: number){
+  let values = JSON.parse(sessionStorage.getItem("listCards"));
+  let data ; 
+    if(values){    
+        data= values; 
+        if(!data.values.includes(id_card)){
+          data.values = [...data.values, id_card]
+        }
+     }else{
+      data = {values: [id_card]}
+
+     }
+    sessionStorage.setItem("listCards", JSON.stringify(data)); 
+ }
 idRoom() {
   this.http.get<Room>(this.baseUrl + 'api/Bingonumber/roomname/' + this._route.snapshot.paramMap.get('roomname')).subscribe(result => {
+    console.log("Result : " + result); 
     this.roomId = Number(result);
   })
 }

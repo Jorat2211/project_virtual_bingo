@@ -13,6 +13,7 @@ export class SignalServiceService {
 
   eNotificarNumber : EventEmitter<BingoNumber> = new EventEmitter(); 
   eNoficUsers : EventEmitter<Number> = new EventEmitter(); 
+  isWinnerNitifica : EventEmitter<boolean> = new EventEmitter(); 
 
   
   constructor()  { 
@@ -26,6 +27,14 @@ export class SignalServiceService {
      this.hubConnection.on("SendNumbersPlayers",(msj)=>{
       this.eNoficUsers.emit(msj); 
      });
+     //SendMensageWinner
+
+     this.hubConnection.on("SendMensageWinner",(msj)=>{
+      let isWinner : boolean = JSON.parse(msj); 
+
+      this.isWinnerNitifica.emit(isWinner); 
+     });
+
     this.hubConnection.start().catch(err=>{
       console.log("Error connect " +err); 
     });

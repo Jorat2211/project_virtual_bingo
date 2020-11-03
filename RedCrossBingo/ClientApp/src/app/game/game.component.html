@@ -31,7 +31,7 @@
          <div *ngFor= "let c of cards" id="cardBingo" class="card" style="width: 23rem;"> 
                 <img id="imagen" class="rounded-circle profile-img-card"
                 src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" />
-                <b><h4 id="title">RED CROSS {{ c.id}}</h4> </b>
+                <b><h4 id="title">RED CROSS {{ c.numberCard}}</h4> </b>
                 <div id="cardNumber" *ngFor= "let n of c.bingoCardNumbers" class="card" style="width: 4rem;" >
                 <div [style.background-color] ="!n.isSelected ? 'rgb(228, 228, 228)': 'rgb(182, 182, 182)'" 
                  class="card-body">
