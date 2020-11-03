@@ -23,6 +23,9 @@ namespace RedCrossBingo.Controller
             _context = context;
         }
 
+        ///<summary>
+        ///Http Post login admin
+        ///</summary>
         [HttpPost("login")]
         // ignora autorizar
         [AllowAnonymous]
@@ -43,6 +46,11 @@ namespace RedCrossBingo.Controller
             }
             return response;
         }
+
+        ///<summary>
+        ///Generate Jwt Token
+        ///<param> User
+        ///</summary>
         string GenerateJWTToken(Users user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));

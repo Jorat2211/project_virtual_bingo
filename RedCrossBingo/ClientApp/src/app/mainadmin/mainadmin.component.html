@@ -12,40 +12,21 @@
 
 <body>
   <header>
-    <nav class="navbar fixed-top navbar navbar-expand-lg navbar-bg-dark bg-dark" >
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" >
-        <ul class="navbar-nav mr-auto" >
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only" style="color: green;">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
+    <nav class="navbar fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/MainAdmin">
+        <img src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" width="60" height="30" alt=""
+          loading="lazy">
+        Red Cross Bingo
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2 search" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline my-2 my-lg-0" *ngIf="!confirmation">
+          <button class="btn btn-outline-success my-2 my-sm-0" (click)="confirmation = true">Logout</button>
+        </form>
+        <form class="form-inline my-2 my-lg-0" *ngIf="confirmation">
+          <button class="btn btn-success" (click)="logout()">Confirm</button>
+          <button class="btn btn-danger mr-2" (click)="confirmation = false">Cancel</button>
         </form>
       </div>
     </nav>
@@ -53,7 +34,7 @@
   <br>
   <br>
   <br>
-  <div class="container" >
+  <div class="container">
     <br>
     <div class="row justify-content-md-center justify-content-sm-center justify-content-center">
       <div class="col-md-5">
@@ -74,40 +55,37 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <!-- <div class="card" style="background-color:rgba(5, 5, 5, 0.808)"> -->
-          <table class="table " *ngIf="rooms" >
-            <thead>
-              <tr>
-                <th style="display:none;">Id</th>
-                <th>Name</th>
-                <th>URL</th>
-                <th style="display:none;">Id_user</th>
-                <th>Options</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let room of rooms">
-                <td style="display:none;">{{ room.id }}</td>
-                <td>{{ room.name }}</td>
-                <td>{{ room.url }}</td>
-                <td style="display:none;">{{ room.usersId }}</td>
-                <td>
-                  <div *ngIf="!room.confirmation">
-                    <button class="btn btn-success" (click)="openRoom(room)"><i
-                        class="fas fa-share-square"></i></button>
-                    <button class="btn btn-danger" (click)="room.confirmation = true"><i
-                        class="fas fa-trash"></i></button>
-                  </div>
-                  <div *ngIf="room.confirmation">
-                    <button class="btn btn-success" (click)="deleteRoom(room)">Confirm</button>
-                    <button class="btn btn-danger mr-2" (click)="room.confirmation = false">Cancel</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        <!-- </div> -->
+      <div class="col-md-7">
+        <table class="table " *ngIf="rooms">
+          <thead>
+            <tr>
+              <th style="display:none;">Id</th>
+              <th>Name</th>
+              <th>URL</th>
+              <th style="display:none;">Id_user</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let room of rooms">
+              <td style="display:none;">{{ room.id }}</td>
+              <td>{{ room.name }}</td>
+              <td>{{ room.url }}</td>
+              <td style="display:none;">{{ room.usersId }}</td>
+              <td>
+                <div *ngIf="!room.confirmation">
+                  <button class="btn btn-success" (click)="openRoom(room)"><i class="fas fa-share-square"></i></button>
+                  <button class="btn btn-danger" (click)="room.confirmation = true"><i
+                      class="fas fa-trash"></i></button>
+                </div>
+                <div *ngIf="room.confirmation">
+                  <button class="btn btn-success" (click)="deleteRoom(room)">Confirm</button>
+                  <button class="btn btn-danger mr-2" (click)="room.confirmation = false">Cancel</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

@@ -20,10 +20,12 @@ namespace RedCrossBingo.Controller
             _context = context;
         }
 
-        // http post
-
+        ///<summary>
+        ///Http post room (get all rooms created from an admin)
+        ///<param> Rooms
+        ///</summary>
         [HttpPost]
-        public async Task<ActionResult<Rooms>> PostRoom (Rooms rooms)
+        public async Task<ActionResult<Rooms>> PostRoom(Rooms rooms)
         {
             _context.Rooms.Add(rooms);
             await _context.SaveChangesAsync();
@@ -31,17 +33,20 @@ namespace RedCrossBingo.Controller
             return CreatedAtAction("GetRooms", new { id = rooms.Id }, rooms);
         }
 
-        // http get name
-
+        ///<summary>
+        ///Http get room (validate the name room not exist)
+        ///<param> idUser
+        ///<param> name
+        ///</summary>
         [HttpGet("{iduser}/{name}")]
-        public async Task<ActionResult<Rooms>> GetRoomName (long iduser, string name)
+        public async Task<ActionResult<Rooms>> GetRoomName(long iduser, string name)
         {
             var rooms = await _context.Rooms.ToListAsync();
             var roomName = new Rooms();
 
             foreach (var cr in rooms.Where(e => e.UsersId == iduser && e.Name == name))
             {
-                roomName.Name = cr.Name;               
+                roomName.Name = cr.Name;
             }
             if (roomName != null)
             {
@@ -50,7 +55,10 @@ namespace RedCrossBingo.Controller
             return null;
         }
 
-        // http get
+        ///<summary>
+        ///Http get room (get a room)
+        ///<param> Rooms
+        ///</summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Rooms>>> GetRooms(long id)
         {
@@ -63,8 +71,10 @@ namespace RedCrossBingo.Controller
             return null;
         }
 
-        // http delete
-
+        ///<summary>
+        ///Http Delete a room
+        ///<param> id
+        ///</summary>
         [HttpDelete("{id}")]
         public async Task<ActionResult<Rooms>> DeleteRoom(long id)
         {
@@ -73,12 +83,10 @@ namespace RedCrossBingo.Controller
             {
                 return NotFound();
             }
-
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
 
             return room;
         }
-
     }
 }

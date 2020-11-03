@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import swal from 'sweetalert';
 import { Room } from './mainadmin.interface';
-import { ActivatedRoute } from '@angular/router';
 import { User } from './user.interface';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,20 +18,18 @@ export class MainAdminComponent {
   private user: User;
   private logueado: [];
 
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private Router: Router) {
     this.userLogueado();
     this.newRoom();
     this.refresh();
   }
 
+  /**
+   * User logueado
+   */
   userLogueado() {
     this.logueado = JSON.parse(sessionStorage.getItem('user'));
-    console.log(this.logueado['token']);
-    console.log(this.logueado['user']['id']);
-    console.log(this.logueado['user']['email']);
-    console.log(this.logueado['user']['password']);
-
-
+    // console.log(this.logueado['token']);
     this.user = {
       id: this.logueado['user']['id'],
       email: this.logueado['user']['email'],
@@ -39,6 +37,9 @@ export class MainAdminComponent {
     }
   }
 
+  /**
+   * Initialize a new room
+   */
   newRoom() {
     this.room = {
       id: -1,
@@ -48,12 +49,18 @@ export class MainAdminComponent {
     }
   }
 
+  /**
+   * Method in charge of refresh the page (table)
+   */
   refresh() {
     this.http.get<Room[]>(this.baseUrl + 'api/MainAdmin/' + this.user.id, this.headers()).subscribe(result => {
       this.rooms = result;
     }, error => console.error(error));
   }
 
+  /**
+   * Method in charge of generate a new URL
+   */
   newURL() {
     var name = this.room.name.toLowerCase().trim().replace(/ /g, "");
     this.http.get<Room>(this.baseUrl + 'api/MainAdmin/' + this.user.id + "/" + name, this.headers()).subscribe(result => {
@@ -86,6 +93,9 @@ export class MainAdminComponent {
 
   }
 
+  /**
+   * Method in charge of delete a specific room
+   */
   deleteRoom(room: Room) {
     this.http.delete(this.baseUrl + 'api/MainAdmin/' + room.id, this.headers()).subscribe(result => {
       if (result) {
@@ -95,11 +105,25 @@ export class MainAdminComponent {
     }, error => console.error(error));
   }
 
+  /**
+   * Method in charge of open a specific room (Admin Main Tombola)
+   */
   openRoom(room: Room) {
     var urlGameAdmin = this.baseUrl + "MainTombola/" + room.name;
     window.open(urlGameAdmin);
   }
 
+  /**
+   * Method in charge of logout
+   */
+  logout() {
+    sessionStorage.clear();
+    this.Router.navigate(['/Login']);
+  }
+
+  /**
+   * method in charge of validating the access token
+   */
   private headers() {
     this.logueado = JSON.parse(sessionStorage.getItem('user'));
     return {

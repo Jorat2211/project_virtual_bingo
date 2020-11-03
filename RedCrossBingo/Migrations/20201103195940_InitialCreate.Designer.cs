@@ -9,7 +9,7 @@ using RedCrossBingo.Models;
 namespace RedCrossBingo.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20201103035831_InitialCreate")]
+    [Migration("20201103195940_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
