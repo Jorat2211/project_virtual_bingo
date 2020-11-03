@@ -55,21 +55,20 @@ export class MainAdminComponent {
   }
 
   newURL() {
-    var name = this.room.name.toLowerCase().trim();
+    var name = this.room.name.toLowerCase().trim().replace(/ /g, "");
     this.http.get<Room>(this.baseUrl + 'api/MainAdmin/' + this.user.id + "/" + name, this.headers()).subscribe(result => {
       if (name != "") {
         if (name === result.name) {
           this.room.name = "";
           swal("Create Room", "Name already exists!", "warning")
         }
-        else
-        {
+        else {
           var url = this.baseUrl + 'MainPlayer/' + name;
           this.http.post<Room>(this.baseUrl + 'api/MainAdmin', {
             name: name,
             url: url,
             usersid: this.user.id,
-  
+
           }, this.headers()).subscribe(result => {
             if (result) {
               this.room.url = url;
@@ -97,7 +96,8 @@ export class MainAdminComponent {
   }
 
   openRoom(room: Room) {
-    window.open(room.url); // cambiar mesa
+    var urlGameAdmin = this.baseUrl + "MainTombola/" + room.name;
+    window.open(urlGameAdmin);
   }
 
   private headers() {

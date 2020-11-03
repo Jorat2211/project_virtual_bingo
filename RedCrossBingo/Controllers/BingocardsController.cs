@@ -110,6 +110,21 @@ namespace RedCrossBingo.Controller
             return NoContent();
         }
 
+        // http get
+        [HttpGet("roomname/{nameRoom}")]
+        public async Task<ActionResult<Rooms>> GetRooms(string nameRoom)
+        {
+            var roomName = new Rooms();
+            var idRoom = await _context.Rooms.Where(x => x.Name == nameRoom).FirstAsync();
+
+            if (idRoom != null)
+            {
+                roomName = idRoom;
+                return Ok(roomName.Id);
+            }
+            return null;
+        }
+
         private bool cardExists(long id)
         {
             return _context.BingoCards.Any(e => e.Id == id);
