@@ -5,6 +5,7 @@
 h3{
     color: white;
 }
+
 .box {
     height: 80vh; 
     width: 65vh;     
@@ -79,10 +80,10 @@ h3{
     transition: 0.25s;
     cursor: pointer
 }
+
 #cancel:hover {
     background: #cf2203
 }
-
 
 .box input[type="submit"]:hover {
     background: #2bff83
@@ -111,8 +112,6 @@ ul.social-network li {
 .social-network a.icoTwitter:hover {
     background-color: #33ccff
 }
-
-
 
 .social-network a.icoFacebook:hover i,
 .social-network a.icoTwitter:hover i{

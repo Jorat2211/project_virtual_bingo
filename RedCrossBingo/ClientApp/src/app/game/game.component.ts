@@ -170,7 +170,6 @@ updateCardNumber(number : BingoCardsNumbers){
     }
   }
 
-
   getNumbersTrue() {
     this.http.get<BingoNumber[]>(this.baseUrl + 'api/Bingonumber/' + 'true/').subscribe(result => {
       result.forEach(element => {

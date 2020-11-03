@@ -10,8 +10,6 @@
     width: 130px;
     opacity: 85%;
     left: 10%;
-
-  
 }
 
 .divCards{
@@ -26,9 +24,7 @@
     height: auto;
     display: inline-block;
     user-select: none;
-
 }
-
 
 #cardBingo{
     text-align: center;  
@@ -58,21 +54,17 @@
     height: 30%;
 }
 
-#number{
-   
+#number{  
     color: rgb(97, 4, 66); 
-
 }
 
 #background-number{
     box-shadow: -1px 1px 60px 2px rgb(0, 0, 0); 
-
-    /* background-color: rgb(182, 182, 182); */
 }
+
 #title{
     color: black;
 }
-
 
 #imagenT{
     text-align: center;
@@ -81,7 +73,6 @@
 }
 
 #numberT{
-   
     color: white; 
     border-radius: 100%;
     background-color: rgb(100, 99, 99);
@@ -98,8 +89,7 @@ h6{
     height: 57px; 
 }
 
-#cardBingoPri{
-  
+#cardBingoPri{ 
     width: 900px; 
     display: inline-block; 
     height: 64vh;     
