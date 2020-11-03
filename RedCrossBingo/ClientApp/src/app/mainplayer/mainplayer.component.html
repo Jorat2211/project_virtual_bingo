@@ -10,16 +10,15 @@
 </head>
 
 <body>
-  <div class="container">
-    <br>
-    <div class="row justify-content-md-center justify-content-sm-center justify-content-center">
-        <h1>Choose select your Cards</h1>
-          <input [(ngModel)]="cant" type="number" min="0" oninput="validity.valid||(value='');"  onKeyDown="return false"> 
-          <input > 
-          <input type="button" (click)="createCards()" value="Start">
-          <input type="button" (click)=" getCardsMax()" value="Ver Mayor">
 
-    </div>
+  <div id="container">
+    <img id="imagenT" class="rounded-circle profile-img-card"
+    src="https://www.lacasaelpozo.com/images/concours/logo-bingo.png" /><br>
+      <h2>Choose select your Cards</h2>
+        <input [(ngModel)]="cant" type="number" min="0" max="10" oninput="validity.valid||(value='');"  onKeyDown="return false"><br><br>  
+        <input  type="button" class="btn btn-success" (click)="createCards()" value=" Start ">
+        <input type="button" (click)=" getCardsMax()" value="Ver Mayor">
+        
   </div>
 
 </body>
